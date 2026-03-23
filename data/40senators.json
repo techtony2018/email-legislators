@@ -1,0 +1,286 @@
+{
+  "description": "California State Senators",
+  "source": "https://www.senate.ca.gov/senators",
+  "senators": [
+    {
+      "name": "Senator Megan Dahle",
+      "email": "Senator.Dahle@senate.ca.gov",
+      "assistant": "Erik.Brahms@sen.ca.gov",
+      "district": "1",
+      "county": "Butte, Lassen, Modoc, Nevada, Placer, Plumas, Shasta, Sierra, Siskiyou, Sutter, Tehama, Yuba"
+    },
+    {
+      "name": "Senator Mike McGuire",
+      "email": "Senator.McGuire@senate.ca.gov",
+      "assistant": "Rebecca.Wachsberg@sen.ca.gov",
+      "district": "2",
+      "county": "Humboldt, Mendocino, Sonoma, Marin, Trinity"
+    },
+    {
+      "name": "Senator Christopher Cabaldon",
+      "email": "Senator.Cabaldon@senate.ca.gov",
+      "assistant": "Aaron.Skaggs@sen.ca.gov",
+      "district": "3",
+      "county": "Napa, Solano, Sonoma, Yolo"
+    },
+    {
+      "name": "Senator Marie Alvarado-Gil",
+      "email": "Senator.Alvarado-Gil@senate.ca.gov",
+      "assistant": "Vanessa.Bravo@sen.ca.gov",
+      "district": "4",
+      "county": "Alpine, Amador, Calaveras, El Dorado, Mono, Sacramento, Tuolumne"
+    },
+    {
+      "name": "Senator Jerry McNerney",
+      "email": "Senator.McNerney@senate.ca.gov",
+      "assistant": "Katerina.Robinson@sen.ca.gov",
+      "district": "5",
+      "county": "Contra Costa, San Joaquin, Solano"
+    },
+    {
+      "name": "Senator Roger Niello",
+      "email": "Senator.Niello@senate.ca.gov",
+      "assistant": "Julie.Sauls@sen.ca.gov",
+      "district": "6",
+      "county": "Sacramento, Placer, Yolo"
+    },
+    {
+      "name": "Senator Jesse Arreguín",
+      "email": "Senator.Arreguin@senate.ca.gov",
+      "assistant": "Brendan.Hughes@sen.ca.gov",
+      "district": "7",
+      "county": "Alameda, Contra Costa"
+    },
+    {
+      "name": "Senator Angelique Ashby",
+      "email": "Senator.Ashby@senate.ca.gov",
+      "assistant": "Cassidy.Denny@sen.ca.gov",
+      "district": "8",
+      "county": "Sacramento"
+    },
+    {
+      "name": "Senator Tim Grayson",
+      "email": "Senator.Grayson@senate.ca.gov",
+      "assistant": "Aaron.Moreno@sen.ca.gov",
+      "district": "9",
+      "county": "Contra Costa"
+    },
+    {
+      "name": "Senator Aisha Wahab",
+      "email": "Senator.Wahab@senate.ca.gov",
+      "assistant": "Nurges.Gheyszada@sen.ca.gov",
+      "district": "10",
+      "county": "Alameda, Santa Clara"
+    },
+    {
+      "name": "Senator Scott Wiener",
+      "email": "Senator.Wiener@senate.ca.gov",
+      "assistant": "Krista.Pfefferkorn@sen.ca.gov",
+      "district": "11",
+      "county": "San Francisco"
+    },
+    {
+      "name": "Senator Shannon Grove",
+      "email": "Senator.Grove@senate.ca.gov",
+      "assistant": "Lindsey.Dietz@sen.ca.gov",
+      "district": "12",
+      "county": "Kern, San Bernardino, Tulare"
+    },
+    {
+      "name": "Senator Josh Becker",
+      "email": "Senator.Becker@senate.ca.gov",
+      "assistant": "Gilbert.Martinez@sen.ca.gov",
+      "district": "13",
+      "county": "San Mateo, Santa Clara"
+    },
+    {
+      "name": "Senator Anna Caballero",
+      "email": "Senator.Caballero@senate.ca.gov",
+      "assistant": "Jeffrey.Roth@sen.ca.gov",
+      "district": "14",
+      "county": "Merced, San Benito, Stanislaus"
+    },
+    {
+      "name": "Senator Dave Cortese",
+      "email": "Senator.Cortese@senate.ca.gov",
+      "assistant": "Sunshine.Borelli@sen.ca.gov",
+      "district": "15",
+      "county": "Santa Clara"
+    },
+    {
+      "name": "Senator Melissa Hurtado",
+      "email": "Senator.Hurtado@senate.ca.gov",
+      "assistant": "Aaron.Brieno@sen.ca.gov",
+      "district": "16",
+      "county": "Fresno, Kern"
+    },
+    {
+      "name": "Senator John Laird",
+      "email": "Senator.Laird@senate.ca.gov",
+      "assistant": "Michelle.Reyes@sen.ca.gov",
+      "district": "17",
+      "county": "Monterey, San Benito, Santa Cruz"
+    },
+    {
+      "name": "Senator Steve Padilla",
+      "email": "Senator.Padilla@senate.ca.gov",
+      "assistant": "Dan.Reeves@sen.ca.gov",
+      "district": "18",
+      "county": "San Diego, Imperial, Riverside"
+    },
+    {
+      "name": "Senator Rosilicie Ochoa Bogh",
+      "email": "Senator.OchoaBogh@senate.ca.gov",
+      "assistant": "Sarah.Couch@sen.ca.gov",
+      "district": "19",
+      "county": "Riverside, San Bernardino"
+    },
+    {
+      "name": "Senator Caroline Menjivar",
+      "email": "Senator.Menjivar@senate.ca.gov",
+      "assistant": "Cameron.Urkofsky@sen.ca.gov",
+      "district": "20",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Monique Limón",
+      "email": "Senator.Limon@senate.ca.gov",
+      "assistant": "Mariana.Sabeniano@sen.ca.gov",
+      "district": "21",
+      "county": "Santa Barbara, Ventura"
+    },
+    {
+      "name": "Senator Susan Rubio",
+      "email": "Senator.Rubio@senate.ca.gov",
+      "assistant": "Alex.Hirsch@sen.ca.gov",
+      "district": "22",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Suzette Martinez Valladares",
+      "email": "Senator.MartinezValladares@senate.ca.gov",
+      "assistant": "Bryan.Shroyer@sen.ca.gov",
+      "district": "23",
+      "county": "Kern, Los Angeles, San Bernardino"
+    },
+    {
+      "name": "Senator Benjamin Allen",
+      "email": "Senator.Allen@senate.ca.gov",
+      "assistant": "Tina.Andolina@sen.ca.gov",
+      "district": "24",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Sasha Renée Pérez",
+      "email": "Senator.Perez@senate.ca.gov",
+      "assistant": "Edmundo.Cuevas@sen.ca.gov",
+      "district": "25",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Maria Elena Durazo",
+      "email": "Senator.Durazo@senate.ca.gov",
+      "assistant": "Jennifer.Richard@sen.ca.gov",
+      "district": "26",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Henry Stern",
+      "email": "Senator.Stern@senate.ca.gov",
+      "assistant": "Emily.Berry@sen.ca.gov",
+      "district": "27",
+      "county": "Los Angeles, Ventura"
+    },
+    {
+      "name": "Senator Lola Smallwood-Cuevas",
+      "email": "Senator.Smallwood-Cuevas@senate.ca.gov",
+      "assistant": "Jessica.Zaragoza@sen.ca.gov",
+      "district": "28",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Eloise Gómez Reyes",
+      "email": "Senator.Reyes@senate.ca.gov",
+      "assistant": "Matthew.Hamlett@sen.ca.gov",
+      "district": "29",
+      "county": "San Bernardino"
+    },
+    {
+      "name": "Senator Bob Archuleta",
+      "email": "Senator.Archuleta@senate.ca.gov",
+      "assistant": "John.Ackler@sen.ca.gov",
+      "district": "30",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Sabrina Cervantes",
+      "email": "Senator.Cervantes@senate.ca.gov",
+      "assistant": "Cesar.Anda@sen.ca.gov",
+      "district": "31",
+      "county": "Riverside"
+    },
+    {
+      "name": "Senator Kelly Seyarto",
+      "email": "Senator.Seyarto@senate.ca.gov",
+      "assistant": "Kristy.MacDougall@sen.ca.gov",
+      "district": "32",
+      "county": "Riverside, San Bernardino"
+    },
+    {
+      "name": "Senator Lena Gonzalez",
+      "email": "Senator.Gonzalez@senate.ca.gov",
+      "assistant": "Cynthia.Alvarez@sen.ca.gov",
+      "district": "33",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Thomas Umberg",
+      "email": "Senator.Umberg@senate.ca.gov",
+      "assistant": "Aria.Ghafari@sen.ca.gov",
+      "district": "34",
+      "county": "Orange"
+    },
+    {
+      "name": "Senator Laura Richardson",
+      "email": "Senator.Richardson@senate.ca.gov",
+      "assistant": "Willie.Armstrong@sen.ca.gov",
+      "district": "35",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Senator Tony Strickland",
+      "email": "Senator.Strickland@senate.ca.gov",
+      "assistant": "Jennifer.Carey@sen.ca.gov",
+      "district": "36",
+      "county": "Los Angeles, Orange"
+    },
+    {
+      "name": "Senator Steven \"Steve\" Choi",
+      "email": "Senator.Choi@senate.ca.gov",
+      "assistant": "David.Orosco@sen.ca.gov",
+      "district": "37",
+      "county": "Orange"
+    },
+    {
+      "name": "Senator Catherine S. Blakespear",
+      "email": "Senator.Blakespear@senate.ca.gov",
+      "assistant": "Jack.Christensen@sen.ca.gov",
+      "district": "38",
+      "county": "San Diego, Orange"
+    },
+    {
+      "name": "Senator Akilah Weber Pierson",
+      "email": "Senator.WeberPierson@senate.ca.gov",
+      "assistant": "Cassandra.Patterson@sen.ca.gov",
+      "district": "39",
+      "county": "San Diego"
+    },
+    {
+      "name": "Senator Brian W. Jones",
+      "email": "Senator.Jones@senate.ca.gov",
+      "assistant": "Craig.Wilson@sen.ca.gov",
+      "district": "40",
+      "county": "San Diego"
+    }
+  ]
+}
