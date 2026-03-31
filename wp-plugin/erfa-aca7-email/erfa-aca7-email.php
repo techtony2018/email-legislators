@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ERFA ACA-7 Email Tool
  * Description: Embed the ACA-7 email tool via shortcode and track usage through a same-origin REST endpoint.
- * Version: 1.9.20
+ * Version: 1.9.21
  * Author: ERFA
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-define('ERFA_ACA7_EMAIL_VERSION', '1.9.20');
+define('ERFA_ACA7_EMAIL_VERSION', '1.9.21');
 
 class ERFA_ACA7_Email_Tool {
     const OPTION_KEY = 'erfa_usage_data';

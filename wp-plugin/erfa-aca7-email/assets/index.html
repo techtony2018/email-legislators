@@ -1105,6 +1105,66 @@ Warm regards,
                 }
             }
         }
+
+        function isLikelyNonSystemBrowser() {
+            const ua = navigator.userAgent || '';
+            const inAppPatterns = [
+                /FBAN|FBAV/i,
+                /Instagram/i,
+                /Line\//i,
+                /MicroMessenger/i,
+                /Twitter/i,
+                /; wv\)/i,
+                /WebView/i
+            ];
+            const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
+            return inAppPatterns.some((re) => re.test(ua)) || isStandalone;
+        }
+
+        async function copyCurrentPageLink() {
+            const pageUrl = window.location.href;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(pageUrl);
+                    return true;
+                }
+            } catch (e) {
+                // fallback below
+            }
+
+            try {
+                const textarea = document.createElement('textarea');
+                textarea.value = pageUrl;
+                textarea.setAttribute('readonly', '');
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                textarea.setSelectionRange(0, textarea.value.length);
+                const ok = document.execCommand('copy');
+                document.body.removeChild(textarea);
+                return !!ok;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        async function handleNonSystemBrowserNotice() {
+            if (!isLikelyNonSystemBrowser()) return;
+
+            const copied = await copyCurrentPageLink();
+            const message = copied
+                ? 'Detected an in-app browser. This page link has been copied to your clipboard. Open it in your system browser for a smoother send flow.'
+                : 'Detected an in-app browser. Please copy this page URL and open it in your system browser for a smoother send flow.';
+
+            const successEl = document.getElementById('successMsg');
+            if (successEl) {
+                successEl.style.display = 'block';
+                successEl.textContent = `ℹ️ ${message}`;
+            }
+
+            alert(message);
+        }
         
         function showSenatorFound(senator) {
             matchedSenator = senator;
@@ -1137,7 +1197,7 @@ Warm regards,
         }
         
         // Form submission
-        document.getElementById('emailForm').addEventListener('submit', (e) => {
+        document.getElementById('emailForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const yourName = document.getElementById('yourName').value.trim();
@@ -1202,7 +1262,8 @@ Warm regards,
             // Show success and open email client
             document.getElementById('successMsg').style.display = 'block';
             document.getElementById('emailForm').classList.add('loading');
-            
+
+            await handleNonSystemBrowserNotice();
             window.location.href = mailtoLink;
             
             setTimeout(() => {
@@ -1341,7 +1402,7 @@ Warm regards,
         }, 60000);
         
         // Use Gmail compose function
-        function openUseGmail() {
+        async function openUseGmail() {
             const yourName = document.getElementById('yourName').value.trim();
             const yourEmail = document.getElementById('yourEmail').value.trim();
             const subject = document.getElementById('emailSubject').value.trim();
@@ -1378,6 +1439,7 @@ Warm regards,
             
             // Open Use Gmail
             document.getElementById('successMsg').style.display = 'block';
+            await handleNonSystemBrowserNotice();
             window.open(gmailUrl, '_blank');
             
             setTimeout(() => {
