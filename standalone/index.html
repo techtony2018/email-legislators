@@ -1277,7 +1277,7 @@ Warm regards,
         
         async function getUsageData() {
             try {
-                const response = await fetch('/api/usage');
+                const response = await fetch('/wp-json/erfa/v1/usage');
                 return await response.json();
             } catch (e) {
                 console.log('Using localStorage fallback');
@@ -1288,7 +1288,7 @@ Warm regards,
         
         async function recordSend(senatorName, city, zipCode) {
             try {
-                const response = await fetch('/api/usage', {
+                const response = await fetch('/wp-json/erfa/v1/usage', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ senator: senatorName, city: city, zip: zipCode })
