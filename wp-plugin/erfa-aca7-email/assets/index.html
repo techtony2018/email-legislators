@@ -476,6 +476,59 @@ Respectfully,
         const isWeChat = /MicroMessenger/i.test(ua);
         const isX = /Twitter|TwitterForiPhone|TwitterForAndroid/i.test(ua); // UA only to avoid desktop referrers
         const embeddedMode = isEmbeddedView || hasReferrer || isWeChat || isX;
+
+        async function copyCurrentPageUrlForSystemBrowser() {
+            const url = window.location.href;
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(url);
+                    return true;
+                }
+            } catch (e) {}
+
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = url;
+                ta.setAttribute('readonly', 'readonly');
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                ta.style.pointerEvents = 'none';
+                ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                ta.setSelectionRange(0, ta.value.length);
+                const copied = document.execCommand('copy');
+                document.body.removeChild(ta);
+                return !!copied;
+            } catch (e) {
+                return false;
+            }
+        }
+
+        function getEmbeddedBrowserPrompt(copied) {
+            if (isWeChat) {
+                return copied
+                    ? '重要提示：已复制当前页面链接。请退出微信内置浏览器，并在系统浏览器中打开该链接以继续操作。'
+                    : '重要提示：微信自带的浏览器不支持本页面。请复制当前页面链接，并在系统浏览器中打开以继续操作。';
+            }
+            if (isX) {
+                return copied
+                    ? 'Important: This page link has been copied. Please open it in your system browser to continue.'
+                    : 'Important: Please copy this page link and open it in your system browser to continue.';
+            }
+            return copied
+                ? 'Important: This page link has been copied. Please open it in your system browser to continue.'
+                : 'Important: Please copy this page link and open it in your system browser to continue.';
+        }
+
+        async function promptOpenInSystemBrowserOnce(kind) {
+            const key = kind === 'wechat' ? '_wechatPopupShown' : kind === 'x' ? '_xPopupShown' : '_embeddedPopupShown';
+            if (window[key]) return;
+            window[key] = true;
+            const copied = await copyCurrentPageUrlForSystemBrowser();
+            alert(getEmbeddedBrowserPrompt(copied));
+        }
         
         // Email Template (single)
         const baseTemplate = `Dear Senator [SENATOR_NAME],
@@ -513,26 +566,25 @@ Respectfully,
                 const showNote = embeddedMode || isX;
                 note.style.display = showNote ? 'block' : 'none';
                 note.textContent = isWeChat
-                    ? '重要提示：微信自带的浏览器不支持本页面，请先切换至系统浏览器中打开以完成自动操作'
+                    ? '重要提示：检测到微信内置浏览器。系统将尝试复制当前页面链接，请改用系统浏览器打开。'
                     : isX
-                        ? 'Important: The X (Twitter) in-app browser may not support this page. Please open in your system browser to complete the action.'
-                        : 'Note: Please use this tool in your system browser for best experience.';
+                        ? 'Important: Detected the X (Twitter) in-app browser. We will try to copy this page link; please open it in your system browser.'
+                        : 'Important: Detected an in-app browser. We will try to copy this page link; please open it in your system browser.';
             }
             const status = document.getElementById('embedStatus');
             if (status) status.textContent = (embeddedMode || isX)
                 ? (isWeChat
-                    ? '重要提示：微信自带的浏览器不支持本页面，请先切换至系统浏览器中打开以完成自动操作'
+                    ? '重要提示：检测到微信内置浏览器。系统将尝试复制当前页面链接，请改用系统浏览器打开。'
                     : isX
-                        ? 'Detected X (Twitter) in-app browser. If send buttons misbehave, open in your system browser.'
-                        : 'Detected embedded/in-app view. If send buttons misbehave, open in your browser.')
+                        ? 'Detected X (Twitter) in-app browser. We will try to copy this page link and ask you to open it in your system browser.'
+                        : 'Detected an in-app browser. We will try to copy this page link and ask you to open it in your system browser.')
                 : '';
-            if (isWeChat && !window._wechatPopupShown) {
-                window._wechatPopupShown = true;
-                alert('重要提示：微信自带的浏览器不支持本页面，请先切换至系统浏览器中打开以完成自动操作');
-            }
-            if (isX && !window._xPopupShown) {
-                window._xPopupShown = true;
-                alert('Important: The X (Twitter) in-app browser may not support this page. Please open in your system browser to complete the action.');
+            if (isWeChat) {
+                promptOpenInSystemBrowserOnce('wechat');
+            } else if (isX) {
+                promptOpenInSystemBrowserOnce('x');
+            } else if (embeddedMode) {
+                promptOpenInSystemBrowserOnce('embedded');
             }
         };
 
