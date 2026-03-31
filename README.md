@@ -54,15 +54,6 @@ We also keep it in sync in:
 - `define('ERFA_ACA7_EMAIL_VERSION', 'x.y.z')` (same file)
 - `wp-plugin/erfa-aca7-email/version.txt`
 
-## WordPress plugin versioning
-
-The WordPress plugin version is version-controlled and lives in:
-
-- `wordpress-plugin/erfa-aca7-email/erfa-aca7-email.php`
-  - plugin header: `Version: x.y.z`
-  - `define('ERFA_ACA7_EMAIL_VERSION', 'x.y.z')`
-- `wordpress-plugin/erfa-aca7-email/version.txt`
-
 ## Deploy to WordPress
 
 Zip **the folder** `wp-plugin/erfa-aca7-email/` and upload in WP Admin:
