@@ -529,55 +529,12 @@ Respectfully,
                 : '🛑 Important: Clipboard copy is blocked here. Please copy the page link and open it in your system browser to continue.';
         }
 
-        function showManualCopyPrompt() {
-            const url = window.location.href;
-            const title = isWeChat ? '复制页面链接' : 'Copy Page Link';
-            const message = isWeChat
-                ? '🛑 请长按或点按下面的链接框，复制该链接，然后在系统浏览器中打开。'
-                : '🛑 Tap or long-press the link field below, copy it, then open it in your system browser.';
-
-            const overlay = document.createElement('div');
-            overlay.className = 'copy-overlay';
-            overlay.innerHTML = `
-                <div class="copy-overlay-card">
-                    <div class="copy-overlay-title">${title}</div>
-                    <div class="copy-overlay-text">${message}</div>
-                    <input class="copy-overlay-input" type="text" readonly value="${url.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}">
-                    <div class="copy-overlay-actions">
-                        <button type="button" class="submit-btn" style="width:auto; min-width:120px;" data-close-copy-overlay>${isWeChat ? '关闭' : 'Close'}</button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(overlay);
-            const input = overlay.querySelector('input');
-            const closeBtn = overlay.querySelector('[data-close-copy-overlay]');
-            if (closeBtn) closeBtn.addEventListener('click', () => overlay.remove());
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) overlay.remove();
-            });
-            if (input) {
-                setTimeout(() => {
-                    input.focus();
-                    input.select();
-                    input.setSelectionRange(0, input.value.length);
-                }, 30);
-                input.addEventListener('click', () => {
-                    input.focus();
-                    input.select();
-                    input.setSelectionRange(0, input.value.length);
-                });
-            }
-        }
-
-        async function promptOpenInSystemBrowserOnce(kind) {
+                async function promptOpenInSystemBrowserOnce(kind) {
             const key = kind === 'wechat' ? '_wechatPopupShown' : kind === 'x' ? '_xPopupShown' : '_embeddedPopupShown';
             if (window[key]) return;
             window[key] = true;
             const copied = await copyCurrentPageUrlForSystemBrowser();
             alert(getEmbeddedBrowserPrompt(copied));
-            if (!copied) {
-                showManualCopyPrompt();
-            }
         }
 
         // Email Template (single)
@@ -616,7 +573,7 @@ Respectfully,
                 const showNote = embeddedMode || isX;
                 note.style.display = showNote ? 'block' : 'none';
                 note.textContent = isWeChat
-                    ? '🛑 重要提示：检测到微信内置浏览器。请复制当前页面链接，再改用系统浏览器打开以继续后续操作。'
+                    ? '重要提示：您正在使用的微信浏览器不支持本页面操作, 请长按并复制下面的链接，然后在系统浏览器中打开以正确操作（页面按钮已经被禁用）。'
                     : '🛑 Important: Detected an in-app browser. We will try to copy this page link; please open it in your system browser.';
             }
             const linkNote = document.getElementById('openInBrowserLink');
@@ -624,9 +581,9 @@ Respectfully,
                 const showLink = embeddedMode || isX;
                 linkNote.style.display = showLink ? 'block' : 'none';
                 if (isWeChat) {
-                    linkNote.innerHTML = '<div style="color:#b42318; font-weight:700; margin-bottom:6px;">🛑 当前页面链接</div><div>' + window.location.href.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+                    linkNote.innerHTML = '<div style="color:#175cd3; font-weight:700; margin-bottom:6px;">ℹ️ 当前页面链接</div><div>' + window.location.href.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
                 } else {
-                    linkNote.innerHTML = '<div style="color:#b42318; font-weight:700; margin-bottom:6px;">🛑 Current Page Link</div><div>' + window.location.href.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+                    linkNote.innerHTML = '<div style="color:#175cd3; font-weight:700; margin-bottom:6px;">ℹ️ Current Page Link</div><div>' + window.location.href.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
                 }
             }
             const status = document.getElementById('embedStatus');
