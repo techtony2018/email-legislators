@@ -2,12 +2,12 @@
 /**
  * Plugin Name: ERFA ACA7 Email Tool - Inline
  * Description: ACA-7 email tool + usage API (v1.9.13 layout/trend plus senator-grouped maps and ZIP drill-down).
- * Version: 1.9.27
+ * Version: 1.9.28
  * Author: ERFA PAC
  */
 if (!defined('ABSPATH')) exit;
 
-define('ERFA_ACA7_EMAIL_VERSION', '1.9.27');
+define('ERFA_ACA7_EMAIL_VERSION', '1.9.28');
 
 function erfa_aca7_normalize_usage_data($raw) {
     $data = is_array($raw) ? $raw : [];
