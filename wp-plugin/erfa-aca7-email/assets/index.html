@@ -86,7 +86,8 @@
         
         <div class="content">
             <div id="openInBrowser" style="margin-bottom:10px; color:#c00; font-weight:600; display:none;">
-                Note: Please use this tool in your system browser for best experience.</div>
+                🛑 Note: Please use this tool in your system browser for best experience.</div>
+            <div id="openInBrowserLink" style="display:none; margin:-2px 0 12px 0; padding:10px 12px; border:1px solid #f2b8b5; background:#fff5f5; border-radius:8px; word-break:break-all; font-size:14px; line-height:1.5;"></div>
             <div id="embedStatus" class="embed-status"></div>
             <form id="emailForm">
                 <!-- Your Info -->
@@ -520,20 +521,20 @@ Respectfully,
             // WeChat => Chinese. Everyone else => English.
             if (isWeChat) {
                 return copied
-                    ? '重要提示：已复制当前页面链接。请退出微信内置浏览器，并在系统浏览器中打开该链接以继续操作。'
-                    : '重要提示：微信自带的浏览器不支持本页面。接下来会显示当前页面链接，请手动复制后在系统浏览器中打开。';
+                    ? '🛑 重要提示：已复制当前页面链接。请退出微信内置浏览器，并在系统浏览器中打开该链接以继续操作。'
+                    : '🛑 重要提示：微信内置浏览器不支持本页面的后续操作。请复制当前页面链接，再改用系统浏览器打开以继续后续操作。';
             }
             return copied
-                ? 'Important: This page link has been copied. Please open it in your system browser to continue.'
-                : 'Important: Clipboard copy is blocked here. We will show the page link next so you can copy it manually and open it in your system browser.';
+                ? '🛑 Important: This page link has been copied. Please open it in your system browser to continue.'
+                : '🛑 Important: Clipboard copy is blocked here. Please copy the page link and open it in your system browser to continue.';
         }
 
         function showManualCopyPrompt() {
             const url = window.location.href;
             const title = isWeChat ? '复制页面链接' : 'Copy Page Link';
             const message = isWeChat
-                ? '请长按或点按下面的链接框，复制该链接，然后在系统浏览器中打开。'
-                : 'Tap or long-press the link field below, copy it, then open it in your system browser.';
+                ? '🛑 请长按或点按下面的链接框，复制该链接，然后在系统浏览器中打开。'
+                : '🛑 Tap or long-press the link field below, copy it, then open it in your system browser.';
 
             const overlay = document.createElement('div');
             overlay.className = 'copy-overlay';
@@ -573,14 +574,10 @@ Respectfully,
             if (window[key]) return;
             window[key] = true;
             const copied = await copyCurrentPageUrlForSystemBrowser();
-            if (copied) {
-                alert(getEmbeddedBrowserPrompt(true));
-                return;
+            alert(getEmbeddedBrowserPrompt(copied));
+            if (!copied) {
+                showManualCopyPrompt();
             }
-            // WeChat and some in-app browsers are flaky after alert().
-            // If copy failed, render the manual-copy UI directly instead of
-            // trying to show a second popup after an alert dialog.
-            showManualCopyPrompt();
         }
 
         // Email Template (single)
@@ -619,14 +616,22 @@ Respectfully,
                 const showNote = embeddedMode || isX;
                 note.style.display = showNote ? 'block' : 'none';
                 note.textContent = isWeChat
-                    ? '重要提示：检测到微信内置浏览器。请复制当前页面链接，再改用系统浏览器打开以继续后续操作。'
-                    : 'Important: Detected an in-app browser. We will try to copy this page link; please open it in your system browser.';
+                    ? '🛑 重要提示：检测到微信内置浏览器。请复制当前页面链接，再改用系统浏览器打开以继续后续操作。'
+                    : '🛑 Important: Detected an in-app browser. We will try to copy this page link; please open it in your system browser.';
+            }
+            const linkNote = document.getElementById('openInBrowserLink');
+            if (linkNote) {
+                const showLink = embeddedMode || isX;
+                linkNote.style.display = showLink ? 'block' : 'none';
+                if (isWeChat) {
+                    linkNote.innerHTML = '<div style="color:#b42318; font-weight:700; margin-bottom:6px;">🛑 当前页面链接</div><div>' + window.location.href.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+                } else {
+                    linkNote.innerHTML = '<div style="color:#b42318; font-weight:700; margin-bottom:6px;">🛑 Current Page Link</div><div>' + window.location.href.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</div>';
+                }
             }
             const status = document.getElementById('embedStatus');
             if (status) status.textContent = (embeddedMode || isX)
-                ? (isWeChat
-                    ? ''
-                    : 'Detected an in-app browser. We will try to copy this page link and ask you to open it in your system browser.')
+                ? ''
                 : '';
             if (isWeChat) {
                 promptOpenInSystemBrowserOnce('wechat');
