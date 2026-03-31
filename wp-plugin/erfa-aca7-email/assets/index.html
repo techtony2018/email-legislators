@@ -230,7 +230,7 @@ Respectfully,
     </div>
 
     <div class="footer">
-        Powered by <a href="https://erfapac.com" target="_blank" rel="noopener">Equal Rights for All PAC</a>, part of the ACA7 Coalition • Email sent directly from your own email client, only city & zipcode is saved for statistics. (v1.9.24)
+        Powered by <a href="https://erfapac.com" target="_blank" rel="noopener">Equal Rights for All PAC</a>, part of the ACA7 Coalition • Email sent directly from your own email client, only city & zipcode is saved for statistics. <span id="appVersionText"></span>
     </div>
 
     <script>
@@ -529,6 +529,13 @@ Respectfully,
             const copied = await copyCurrentPageUrlForSystemBrowser();
             alert(getEmbeddedBrowserPrompt(copied));
         }
+
+        function applyDynamicVersionLabel() {
+            const el = document.getElementById('appVersionText');
+            if (!el) return;
+            const version = new URLSearchParams(window.location.search).get('v');
+            el.textContent = version ? ` (v${version})` : '';
+        }
         
         // Email Template (single)
         const baseTemplate = `Dear Senator [SENATOR_NAME],
@@ -585,6 +592,7 @@ Respectfully,
         };
 
         // Initialize
+        applyDynamicVersionLabel();
         applyEmbeddedMode();
         document.getElementById('emailBody').value = baseTemplate;
         
