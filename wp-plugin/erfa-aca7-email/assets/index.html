@@ -230,7 +230,7 @@ Respectfully,
     </div>
 
     <div class="footer">
-        Powered by <a href="https://erfapac.com" target="_blank" rel="noopener">Equal Rights for All PAC</a>, part of the ACA7 Coalition • Email sent directly from your own email client, only city & zipcode is saved for statistics. <span id="appVersionText"></span>
+        Powered by <a href="https://erfapac.com" target="_blank" rel="noopener">Equal Rights for All PAC</a>, part of the ACA7 Coalition • Email sent directly from your own email client, only city & zipcode is saved for statistics. <span id="appVersionText">{{APP_VERSION_LABEL}}</span>
     </div>
 
     <script>
@@ -515,11 +515,23 @@ Respectfully,
             if (isWeChat) {
                 return copied
                     ? '重要提示：已复制当前页面链接。请退出微信内置浏览器，并在系统浏览器中打开该链接以继续操作。'
-                    : '重要提示：微信自带的浏览器不支持本页面。请复制当前页面链接，并在系统浏览器中打开以继续操作。';
+                    : '重要提示：微信自带的浏览器不支持本页面。接下来会显示当前页面链接，请手动复制后在系统浏览器中打开。';
             }
             return copied
                 ? 'Important: This page link has been copied. Please open it in your system browser to continue.'
-                : 'Important: Please copy this page link and open it in your system browser to continue.';
+                : 'Important: Clipboard copy is blocked here. We will show the page link next so you can copy it manually and open it in your system browser.';
+        }
+
+        function showManualCopyPrompt() {
+            const url = window.location.href;
+            const message = isWeChat
+                ? '请手动复制下面这个页面链接，并在系统浏览器中打开：'
+                : 'Please manually copy this page link and open it in your system browser:';
+            try {
+                window.prompt(message, url);
+            } catch (e) {
+                alert(message + '\n\n' + url);
+            }
         }
 
         async function promptOpenInSystemBrowserOnce(kind) {
@@ -528,15 +540,11 @@ Respectfully,
             window[key] = true;
             const copied = await copyCurrentPageUrlForSystemBrowser();
             alert(getEmbeddedBrowserPrompt(copied));
+            if (!copied) {
+                showManualCopyPrompt();
+            }
         }
 
-        function applyDynamicVersionLabel() {
-            const el = document.getElementById('appVersionText');
-            if (!el) return;
-            const version = new URLSearchParams(window.location.search).get('v');
-            el.textContent = version ? ` (v${version})` : '';
-        }
-        
         // Email Template (single)
         const baseTemplate = `Dear Senator [SENATOR_NAME],
 
@@ -592,7 +600,6 @@ Respectfully,
         };
 
         // Initialize
-        applyDynamicVersionLabel();
         applyEmbeddedMode();
         document.getElementById('emailBody').value = baseTemplate;
         
