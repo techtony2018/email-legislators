@@ -619,13 +619,13 @@ Respectfully,
                 const showNote = embeddedMode || isX;
                 note.style.display = showNote ? 'block' : 'none';
                 note.textContent = isWeChat
-                    ? '重要提示：检测到微信内置浏览器。系统将尝试复制当前页面链接，请改用系统浏览器打开。'
+                    ? '重要提示：检测到微信内置浏览器。请复制当前页面链接，再改用系统浏览器打开以继续后续操作。'
                     : 'Important: Detected an in-app browser. We will try to copy this page link; please open it in your system browser.';
             }
             const status = document.getElementById('embedStatus');
             if (status) status.textContent = (embeddedMode || isX)
                 ? (isWeChat
-                    ? '重要提示：检测到微信内置浏览器。系统将尝试复制当前页面链接，请改用系统浏览器打开。'
+                    ? ''
                     : 'Detected an in-app browser. We will try to copy this page link and ask you to open it in your system browser.')
                 : '';
             if (isWeChat) {
