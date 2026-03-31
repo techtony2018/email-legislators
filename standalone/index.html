@@ -73,7 +73,7 @@
         .copy-overlay-card { background: #fff; width: 100%; max-width: 560px; border-radius: 14px; padding: 18px; box-shadow: 0 18px 40px rgba(0,0,0,.25); }
         .copy-overlay-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #222; }
         .copy-overlay-text { font-size: 14px; color: #444; margin-bottom: 12px; line-height: 1.5; }
-        .copy-overlay-input { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; margin-bottom: 12px; }
+        .copy-overlay-input { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; margin-bottom: 12px; background:#fff; color:#111; }
         .copy-overlay-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
     </style>
 </head>
@@ -530,13 +530,41 @@ Respectfully,
 
         function showManualCopyPrompt() {
             const url = window.location.href;
+            const title = isWeChat ? '复制页面链接' : 'Copy Page Link';
             const message = isWeChat
-                ? '请复制下面这个页面链接，并在系统浏览器中打开：\n\n' + url
-                : 'Please copy the page link below and open it in your system browser:\n\n' + url;
-            try {
-                window.prompt(message, url);
-            } catch (e) {
-                alert(message);
+                ? '请长按或点按下面的链接框，复制该链接，然后在系统浏览器中打开。'
+                : 'Tap or long-press the link field below, copy it, then open it in your system browser.';
+
+            const overlay = document.createElement('div');
+            overlay.className = 'copy-overlay';
+            overlay.innerHTML = `
+                <div class="copy-overlay-card">
+                    <div class="copy-overlay-title">${title}</div>
+                    <div class="copy-overlay-text">${message}</div>
+                    <input class="copy-overlay-input" type="text" readonly value="${url.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}">
+                    <div class="copy-overlay-actions">
+                        <button type="button" class="submit-btn" style="width:auto; min-width:120px;" data-close-copy-overlay>${isWeChat ? '关闭' : 'Close'}</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            const input = overlay.querySelector('input');
+            const closeBtn = overlay.querySelector('[data-close-copy-overlay]');
+            if (closeBtn) closeBtn.addEventListener('click', () => overlay.remove());
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) overlay.remove();
+            });
+            if (input) {
+                setTimeout(() => {
+                    input.focus();
+                    input.select();
+                    input.setSelectionRange(0, input.value.length);
+                }, 30);
+                input.addEventListener('click', () => {
+                    input.focus();
+                    input.select();
+                    input.setSelectionRange(0, input.value.length);
+                });
             }
         }
 
