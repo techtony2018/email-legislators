@@ -569,10 +569,14 @@ Respectfully,
             if (window[key]) return;
             window[key] = true;
             const copied = await copyCurrentPageUrlForSystemBrowser();
-            alert(getEmbeddedBrowserPrompt(copied));
-            if (!copied) {
-                showManualCopyPrompt();
+            if (copied) {
+                alert(getEmbeddedBrowserPrompt(true));
+                return;
             }
+            // WeChat and some in-app browsers are flaky after alert().
+            // If copy failed, render the manual-copy UI directly instead of
+            // trying to show a second popup after an alert dialog.
+            showManualCopyPrompt();
         }
 
         // Email Template (single)
