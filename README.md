@@ -32,6 +32,14 @@ A self-contained WordPress plugin that embeds the ACA-7 opposition email tool vi
 - `assets/img/erfapac-logo.png` — logo.
 - `version.txt` — current version number.
 
+## Versioning (source of truth)
+The plugin version is stored in three places:
+1. **Plugin header** (`erfa-aca7-email.php`): `Version: x.y.z`
+2. **Version constant** (`erfa-aca7-email.php`): `define('ERFA_ACA7_EMAIL_VERSION', 'x.y.z');`
+3. **`version.txt`**: plain version string (e.g. `1.9.20`)
+
+For WordPress plugin metadata, the canonical source is the plugin header version in `erfa-aca7-email.php`.
+
 ## Version History
 - **1.2 (current)**: UI compaction; success message shown by default with guidance; status updates after send; button labels simplified (no icons); `[YOUR_ADDRESS]` placeholder added and auto-filled; merged total count into history heading; tightened spacing.
 - **1.1**: Repositioned success message below buttons; widened layout to 100%; PST timestamps; senator dropdown names without “Senator”; usage fetch hardened; added `version.txt` and bumped version constant.

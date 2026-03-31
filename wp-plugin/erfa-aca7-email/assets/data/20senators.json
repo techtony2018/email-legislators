@@ -1,0 +1,146 @@
+{
+  "senators": [
+    {
+      "name": "Ben Allen",
+      "district": "24",
+      "email": "Senator.Allen@senate.ca.gov",
+      "assistant": "Tina.Andolina@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Bob Archuleta",
+      "district": "30",
+      "email": "Senator.Archuleta@senate.ca.gov",
+      "assistant": "John.Ackler@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Angelique Ashby",
+      "district": "8",
+      "email": "Senator.Ashby@senate.ca.gov",
+      "assistant": "Cassidy.Denny@sen.ca.gov",
+      "county": "Sacramento"
+    },
+    {
+      "name": "Catherine Blakespear",
+      "district": "38",
+      "email": "Senator.Blakespear@senate.ca.gov",
+      "assistant": "Jack.Christensen@sen.ca.gov",
+      "county": "San Diego, Orange"
+    },
+    {
+      "name": "Anna Caballero",
+      "district": "14",
+      "email": "Senator.Caballero@senate.ca.gov",
+      "assistant": "Jeffrey.Roth@sen.ca.gov",
+      "county": "Merced, San Benito, Stanislaus"
+    },
+    {
+      "name": "Sabrina Cervantes",
+      "district": "31",
+      "email": "Senator.Cervantes@senate.ca.gov",
+      "assistant": "Cesar.Anda@sen.ca.gov",
+      "county": "Riverside"
+    },
+    {
+      "name": "Dave Cortese",
+      "district": "15",
+      "email": "Senator.Cortese@senate.ca.gov",
+      "assistant": "Sunshine.Borelli@sen.ca.gov",
+      "county": "Santa Clara"
+    },
+    {
+      "name": "Tim Grayson",
+      "district": "9",
+      "email": "Senator.Grayson@senate.ca.gov",
+      "assistant": "Aaron.Moreno@sen.ca.gov",
+      "county": "Contra Costa"
+    },
+    {
+      "name": "Melissa Hurtado",
+      "district": "16",
+      "email": "Senator.Hurtado@senate.ca.gov",
+      "assistant": "Aaron.Brieno@sen.ca.gov",
+      "county": "Fresno, Kern"
+    },
+    {
+      "name": "Monique Limón",
+      "district": "21",
+      "email": "Senator.Limon@senate.ca.gov",
+      "assistant": "Mariana.Sabeniano@sen.ca.gov",
+      "county": "Santa Barbara, Ventura"
+    },
+    {
+      "name": "Mike McGuire",
+      "district": "2",
+      "email": "Senator.McGuire@senate.ca.gov",
+      "assistant": "Rebecca.Wachsberg@sen.ca.gov",
+      "county": "Humboldt, Mendocino, Sonoma, Marin, Trinity"
+    },
+    {
+      "name": "Jerry McNerney",
+      "district": "5",
+      "email": "Senator.McNerney@senate.ca.gov",
+      "assistant": "Katerina.Robinson@sen.ca.gov",
+      "county": "Contra Costa, San Joaquin, Solano"
+    },
+    {
+      "name": "Caroline Menjivar",
+      "district": "20",
+      "email": "Senator.Menjivar@senate.ca.gov",
+      "assistant": "Cameron.Urkofsky@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Steve Padilla",
+      "district": "18",
+      "email": "Senator.Padilla@senate.ca.gov",
+      "assistant": "Dan.Reeves@sen.ca.gov",
+      "county": "San Diego, Imperial, Riverside"
+    },
+    {
+      "name": "Sasha Renée Pérez",
+      "district": "25",
+      "email": "Senator.Perez@senate.ca.gov",
+      "assistant": "Edmundo.Cuevas@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Eloise Reyes",
+      "district": "29",
+      "email": "Senator.Reyes@senate.ca.gov",
+      "assistant": "Matthew.Hamlett@sen.ca.gov",
+      "county": "San Bernardino"
+    },
+    {
+      "name": "Susan Rubio",
+      "district": "22",
+      "email": "Senator.Rubio@senate.ca.gov",
+      "assistant": "Alex.Hirsch@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Henry Stern",
+      "district": "27",
+      "email": "Senator.Stern@senate.ca.gov",
+      "assistant": "Emily.Berry@sen.ca.gov",
+      "county": "Los Angeles, Ventura"
+    },
+    {
+      "name": "Thomas Umberg",
+      "district": "34",
+      "email": "Senator.Umberg@senate.ca.gov",
+      "assistant": "Aria.Ghafari@sen.ca.gov",
+      "county": "Orange"
+    },
+    {
+      "name": "Scott Wiener",
+      "district": "11",
+      "email": "Senator.Wiener@senate.ca.gov",
+      "assistant": "Krista.Pfefferkorn@sen.ca.gov",
+      "county": "San Francisco"
+    }
+  ],
+  "source": "20senators.json converted",
+  "generated": "2026-02-27T04:18:05Z"
+}
