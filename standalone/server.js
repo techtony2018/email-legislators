@@ -133,7 +133,7 @@ const server = http.createServer((req, res) => {
           zip: normalizedZip,
           time
         });
-        data.recentSends = data.recentSends.slice(0, 10);
+        data.recentSends = data.recentSends.slice(0, 20);
 
         if (normalizedCity || normalizedZip) {
           const locationKey = `${normalizedCity.toLowerCase()}|${normalizedZip}`;

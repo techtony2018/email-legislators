@@ -7,10 +7,9 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; line-height: 1.6; }
-        .container { max-width: 700px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden; }
         .header { background: #fff; color: #004aad; padding: 24px; text-align: center; }
         .header-title { display:flex; align-items:center; justify-content:center; gap:10px; font-size:24px; font-weight:700; color:#004aad; }
-        .header-title .logo { width:48px; height:48px; object-fit:contain; }
         .header h1 { display:none; }
         .header p { opacity: 0.9; font-size: 24px; font-weight: 600; margin-top:8px; color:#004aad; }
         .content { padding: 24px; }
@@ -21,23 +20,24 @@
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.2s; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #c00; }
         .form-group textarea { min-height: 200px; resize: vertical; font-family: inherit; }
-        .template-buttons { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
-        .template-btn { padding: 8px 16px; border: 1px solid #ddd; background: white; border-radius: 20px; cursor: pointer; font-size: 14px; transition: all 0.2s; }
-        .template-btn:hover, .template-btn.active { background: #c00; color: white; border-color: #c00; }
+        .template-buttons { display: flex; gap: 12px; margin-bottom: 12px; }
+        .template-btn { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid #ccc; background: #f7f7f7; border-radius: 12px; cursor: pointer; font-size: 15px; font-weight: 600; text-align: center; transition: all 0.2s; color:#222; }
+        .template-btn input { margin: 0; }
+        .template-btn.active, .template-btn:hover { background: #eee; color: #111; border-color: #888; }
         .your-info { background: #fafafa; padding: 16px; border-radius: 8px; }
         .address-section { background: #e8f4fd; padding: 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid #b8daff; }
         .address-section h3 { font-size: 14px; color: #004085; margin-bottom: 12px; }
-        .lookup-btn { padding: 10px 20px; background: #0066cc; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; margin-left: 10px; }
-        .lookup-btn:hover { background: #0052a3; }
-        .lookup-btn:disabled { background: #ccc; cursor: not-allowed; }
+        .lookup-btn { padding: 10px 16px; background: #f7f7f7; color: #222; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; min-width: 160px; text-align: center; }
+        .lookup-btn:hover { background: #eee; }
+        .lookup-btn:disabled { background: #e5e5e5; cursor: not-allowed; color:#888; }
         .senator-found { background: #d4edda; padding: 12px; border-radius: 6px; margin-top: 12px; color: #155724; font-size: 14px; }
         .senator-not-found { background: #f8d7da; padding: 12px; border-radius: 6px; margin-top: 12px; color: #721c24; font-size: 14px; }
         .cc-section { background: #fff3cd; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
         .cc-section p { font-size: 14px; color: #856404; }
         .recipient-summary { background: #f8f9fa; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
         .recipient-summary strong { color: #c00; }
-        .submit-btn { width: 100%; padding: 16px; background: #c00; color: white; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
-        .submit-btn:hover { background: #a00; }
+        .submit-btn { width: 100%; padding: 16px; background: #f7f7f7; color: #222; border: 1px solid #ccc; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .submit-btn:hover { background: #eee; }
         .footer { padding: 16px 24px; background: #f5f5f5; text-align: center; font-size: 12px; color: #888; }
         .loading { opacity: 0.6; pointer-events: none; }
         .success-message { display: none; background: #d4edda; color: #155724; padding: 16px; border-radius: 8px; margin-bottom: 16px; text-align: center; }
@@ -49,68 +49,65 @@
         #debugLog { width: 100%; height: 200px; background: #0a0a0a; color: #0f0; border: 1px solid #333; padding: 8px; font-family: monospace; font-size: 11px; resize: vertical; }
         #debugClear { background: #333; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; margin-top: 8px; font-size: 11px; }
         #debugClear:hover { background: #444; }
-        .address-row { display: flex; gap: 10px; }
-        .address-row .form-group { flex: 1; }
-        .history-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-        .map-btn { padding: 10px 16px; background: #34a853; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; }
-        .map-btn:hover { background: #2b8a46; }
-        .map-btn:disabled { background: #94d3a2; cursor: wait; }
-        .map-panel { display: block; background: #fafafa; border: 1px solid #eee; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
+        .address-row { display: flex !important; gap: 12px; flex-wrap: nowrap; align-items: flex-start; }
+        .address-row .form-group { flex: 1; min-width: 0; }
+        .address-row .form-group:last-child { flex: 0 0 140px; }
+        .address-row .form-group input { width: 100% !important; }
+        textarea#emailBody { width: 100%; max-width: 900px; }
+        .history-toolbar { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
+        .map-panel { display:block; background:#fafafa; border:1px solid #eee; border-radius:8px; padding:12px; margin-bottom:12px; }
         .map-nav { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; flex-wrap:wrap; }
-        .map-nav-title { font-size: 16px; font-weight: 700; color:#333; }
-        .back-btn { padding: 8px 14px; background:#1a73e8; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; }
-        .back-btn:hover { background:#1558b0; }
-        .back-btn[disabled] { background:#9bbcf3; cursor:not-allowed; }
-        .map-status { font-size: 13px; color: #666; margin-bottom: 10px; }
-        #northLocationMap, #centralLocationMap, #southLocationMap, #drilldownLocationMap { width: 100%; height: 460px; border-radius: 8px; background: #f0f0f0; }
-        .split-maps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .submap-card { background: white; border: 1px solid #eee; border-radius: 8px; padding: 10px; }
-        .submap-card h3 { margin: 0 0 8px 0; font-size: 15px; color: #333; }
-        .submap-status { font-size: 12px; color: #666; margin-bottom: 8px; }
-        .hidden { display: none !important; }
-        @media (max-width: 1200px) {
-            .split-maps { grid-template-columns: 1fr; }
-        }
+        .map-nav-title { font-size:16px; font-weight:700; color:#333; }
+        .back-btn { padding:8px 14px; background:#4285F4; color:#fff; border:1px solid #4285F4; border-radius:6px; cursor:pointer; font-size:13px; font-weight:600; }
+        .back-btn:hover { background:#2f6cd1; }
+        .back-btn[disabled] { background:#ccc; border-color:#aaa; color:#666; cursor:not-allowed; }
+        .map-status { font-size:13px; color:#666; margin-bottom:10px; }
+        #northLocationMap, #centralLocationMap, #southLocationMap, #drilldownLocationMap { width:100%; height:460px !important; min-height:460px !important; display:block; border-radius:8px; background:#f0f0f0; }
+        .split-maps { display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; }
+        .submap-card { background:white; border:1px solid #eee; border-radius:8px; padding:10px; }
+        .submap-card h3 { margin:0 0 8px 0; font-size:15px; color:#333; }
+        .submap-status { font-size:12px; color:#666; margin-bottom:8px; }
+        .hidden { display:none !important; }
+        @media (max-width: 1200px) { .split-maps { grid-template-columns:1fr; } }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" style="max-width:900px;margin:0 auto;">
         <div class="header">
-            <div class="header-title"><a href="https://erfapac.com" target="_blank" rel="noopener"><img src="img/erfapac-logo.png" alt="ERFA PAC" class="logo"></a> <span style="color:#004aad;">Vote No on ACA-7</span></div>
+            <div class="header-title"><span style="color:#004aad;">Vote No on ACA-7</span></div>
             <p>Email Your Senator to Oppose ACA-7 Now!</p>
         </div>
         
         <div class="content">
-            <div class="success-message" id="successMsg">
-                ✅ Email composer opened! Complete and send from your email client.
-            </div>
-            
+            <div id="openInBrowser" style="margin-bottom:10px; color:#c00; font-weight:600; display:none;">
+                Note: Please use this tool in your system browser for best experience.</div>
+            <div id="embedStatus" class="embed-status"></div>
             <form id="emailForm">
                 <!-- Your Info -->
                 <div class="section">
                     <div class="address-section" style="padding-top:0;">
                         <div class="form-row" style="display:flex; gap:12px;">
                             <div class="form-group" style="flex:1; margin-bottom:0;">
-                                <input type="text" id="yourName" required placeholder="Your Name">
+                                <input type="text" id="yourName" required placeholder="* Name">
                             </div>
                             <div class="form-group" style="flex:1; margin-bottom:0;">
-                                <input type="email" id="yourEmail" required placeholder="Your Email">
+                                <input type="email" id="yourEmail" required placeholder="* Email">
                             </div>
                         </div>
                         <div class="form-group" style="margin-top:10px;">
-                            <input type="text" id="streetAddress" placeholder="Street Address" required>
+                            <input type="text" id="streetAddress" placeholder="* Street Address" required>
                         </div>
-                        <div class="address-row">
+                        <div class="address-row" style="margin-top:10px;">
                             <div class="form-group" style="flex: 1;">
-                                <input type="text" id="city" placeholder="City" required>
+                                <input type="text" id="city" placeholder="* City" required>
                             </div>
                             <div class="form-group" style="width: 120px;">
-                                <input type="text" id="zip" placeholder="ZIP" required>
+                                <input type="text" id="zip" placeholder="* ZIP" required maxlength="5" pattern="\d{5}">
                             </div>
                         </div>
-                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                            <button type="button" class="lookup-btn" id="lookupBtn" onclick="findSenator()">🔍 Find My Senator</button>
-                            <button type="button" class="lookup-btn" id="manualBtn" onclick="toggleManual()">🧭 Select Senator</button>
+                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:nowrap;">
+                            <button type="button" class="lookup-btn" id="lookupBtn" onclick="findSenator()">Find My Senator</button>
+                            <button type="button" class="lookup-btn" id="manualBtn" onclick="toggleManual()">Select Senator</button>
                         </div>
                         <div id="manualSelect" style="margin-top:8px; display:none;">
                             <select id="manualSenator" onchange="manualSelectSenator(this)" style="width: 100%; padding: 10px;">
@@ -129,16 +126,27 @@
                 
                 <!-- Email Content -->
                 <div class="section">
-                    <div class="template-buttons">
-                        <button type="button" class="template-btn" data-template="standard">Standard</button>
-                        <button type="button" class="template-btn active" data-template="urgent">Urgent</button>
-                        <button type="button" class="template-btn" data-template="personal">Personal</button>
+                    <div class="form-group subject-row">
+                        <label for="emailSubject" style="font-size:16px; font-weight:700; color:#333;">Subject:</label>
+                        <span class="subject-text" style="font-size:18px; font-weight:600; color:#111;">URGENT: Please Oppose ACA7</span>
+                        <input type="hidden" id="emailSubject" value="URGENT: Please Oppose ACA7">
                     </div>
+                    <div style="height:12px;"></div>
                     <div class="form-group">
-                        <input type="text" id="emailSubject" required value="Opposition to ACA7 - Protect Prop 209" readonly>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="emailBody" required></textarea>
+                        <textarea id="emailBody" required style="min-height: 500px; font-size:16px; line-height:1.5;">
+ACA-7 is a direct threat to California's constitutional ban on racial and sex discrimination.
+
+This legislation would allow schools, colleges, and universities to discriminate and grant preferential treatment based on race or sex—undermining decades of progress toward equal treatment under the law.
+
+California voters spoke clearly in 2020 when they rejected Prop 16. They don't want discrimination, and they are tired of having to fight their legislators on this.
+
+Please vote NO on ACA-7.
+
+Respectfully,
+
+[YOUR_NAME]
+[YOUR_ADDRESS]
+                        </textarea>
                     </div>
                 </div>
                 
@@ -148,40 +156,39 @@
                 </div>
                 
                 <!-- Submit -->
-                <div style="display: flex; gap: 10px; margin-top: 16px;">
-                    <button type="submit" class="submit-btn" style="flex: 1;">📧 Use Your Email App</button>
-                    <button type="button" class="submit-btn" style="flex: 1; background: #4285F4;" onclick="openUseGmail()">📬 Use Gmail</button>
+                <div style="display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap;">
+                    <button type="submit" class="submit-btn" style="flex: 1 1 220px;">Send via Email App</button>
+                    <button type="button" class="submit-btn" style="flex: 1 1 220px; background: #4285F4;" onclick="openGmail()">Send via Gmail</button>
+                    <button type="button" class="submit-btn" style="flex: 1 1 220px; background: #0a66c2;" onclick="openOutlookWebmail()">Send via Outlook / Hotmail</button>
+                    <button type="button" class="submit-btn" style="flex: 1 1 220px; background: #7b1fa2;" onclick="openYahooMail()">Send via Yahoo Mail</button>
                 </div>
-                
-                <!-- Simple Usage Counter -->
-                <p style="text-align: center; margin-top: 12px; color: #666; font-size: 14px;">Total Emails Sent: <strong id="totalCount" style="color: #c00;">0</strong></p>
+                <button type="button" id="statsToggleBtn" class="submit-btn" style="margin-top: 10px; width: 100%; padding: 10px 14px; font-size: 15px;" onclick="toggleStatsSection()">Show Statistics</button>
+
+                <div class="success-message" id="successMsg" style="margin-top:4px; margin-bottom:4px; display:none;">
+                    Click one of the buttons above to open auto filled email for sending.
+                </div>
             </form>
         </div>
         
         <!-- Sending History (bottom) -->
-        <div class="content" id="sendingHistoryBottom">
+        <div class="content" id="sendingHistoryBottom" style="margin-top:4px; display:none;">
             <div class="section" id="recentSendsSection" style="display: none;">
-                <div class="history-toolbar">
-                    <h2 style="margin: 0; border: 0; padding: 0;">Recent Email Sends & Location Maps</h2>
-                </div>
                 <div id="splitMapPanel" class="map-panel">
                     <div class="map-nav">
                         <div>
                             <div id="mapViewTitle" class="map-nav-title">All Senators</div>
                             <div id="splitMapStatus" class="map-status" style="margin-bottom:0;">Preparing split maps…</div>
                         </div>
-                        <button type="button" id="mapBackBtn" class="back-btn" onclick="resetMapView()" disabled>← Back to all senators</button>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;">
+                            <button type="button" id="refreshMapBtn" class="back-btn" onclick="refreshMapViewNow()">↻ Refresh Map</button>
+                            <button type="button" id="mapBackBtn" class="back-btn" onclick="resetMapView()" disabled style="display:none;">← Back To All Senators</button>
+                        </div>
                     </div>
                     <div id="topLevelMaps" class="split-maps">
                         <div class="submap-card">
                             <h3>Northern California</h3>
                             <div id="northMapStatus" class="submap-status">Waiting to load…</div>
                             <div id="northLocationMap"></div>
-                        </div>
-                        <div class="submap-card">
-                            <h3>Central California</h3>
-                            <div id="centralMapStatus" class="submap-status">Waiting to load…</div>
-                            <div id="centralLocationMap"></div>
                         </div>
                         <div class="submap-card">
                             <h3>Southern California</h3>
@@ -196,6 +203,9 @@
                     </div>
                 </div>
                 <div style="background: #fafafa; border-radius: 8px; border: 1px solid #eee; max-height: 300px; overflow-y: auto;">
+                    <div class="history-toolbar" style="justify-content: center; padding: 10px 10px 0 10px; margin-bottom: 8px;">
+                        <h3 style="text-align:center; margin-bottom:0; font-size:18px;">Recent 20 Emails, Total Sent: <span id="totalCount" style="color:#c00; font-size:20px;">0</span></h3>
+                    </div>
                     <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
                         <thead style="position: sticky; top: 0; background: #f0f0f0;">
                             <tr>
@@ -209,21 +219,23 @@
                     </table>
                 </div>
             </div>
+            <button type="button" id="trendToggle" onclick="toggleTrend()" style="display:block; margin:12px auto 10px auto; padding:10px 14px; border:1px solid #ddd; background:#fff; border-radius:8px; cursor:pointer;">Show Email Send Trend</button>
+            <div class="section" id="trendSection" style="display:none; margin-bottom:12px;">
+                <h3 style="text-align:center; margin-bottom:8px; font-size:16px;">Email Send Trend (by day)</h3>
+                <div id="trendContent" style="background:#fafafa; border:1px solid #eee; border-radius:8px; padding:10px; font-size:12px; color:#333;"></div>
+            </div>
         </div>
         
         <!-- Debug Panel (shown when ?debug=on) -->
-        <div id="debugPanel" class="container" style="margin-top: 20px;">
-            <h3>🔧 Debug Log</h3>
-            <textarea id="debugLog" readonly placeholder="Debug logs will appear here when you search for a senator..."></textarea>
-            <button id="debugClear" onclick="debug.clear()">Clear Log</button>
-        </div>
     </div>
 
     <div class="footer">
-        Powered by <a href="https://erfapac.com" target="_blank" rel="noopener">Equal Rights for All PAC</a>, part of the ACA7 Coalition • Email sent directly from your own email client, only city & zipcode is saved for statistics.
+        Powered by <a href="https://erfapac.com" target="_blank" rel="noopener">Equal Rights for All PAC</a>, part of the ACA7 Coalition • Email sent directly from your own email client, only city & zipcode is saved for statistics. (v1.9.14)
     </div>
 
     <script>
+        // Detect if not in system browser (e.g., embedded in an app or iframe)
+
         // Senator Data with district info for matching
         const defaultSenators = [
             { name: "Senator Ben Allen", email: "Senator.Allen@senate.ca.gov", assistant: "Tina.Andolina@sen.ca.gov", district: "26", county: "Los Angeles" },
@@ -249,6 +261,8 @@
         ];
         let senators = [...defaultSenators];
         let bccSenators = [...defaultSenators];
+        const displayName = (s) => (s && s.name) ? s.name.replace(/^Senator\s+/i, '') : '';
+
         
         // ZIP to District mapping (comprehensive California ZIPs)
         const defaultZipDistrictMap = {
@@ -456,76 +470,102 @@
         
         let selectedSenator = null;
         let matchedSenator = null;
+        const isEmbeddedView = (() => { try { return window.self !== window.top; } catch (e) { return true; }})();
+        const hasReferrer = !!document.referrer;
+        const ua = navigator.userAgent || '';
+        const isWeChat = /MicroMessenger/i.test(ua);
+        const isX = /Twitter|TwitterForiPhone|TwitterForAndroid/i.test(ua); // UA only to avoid desktop referrers
+        const embeddedMode = isEmbeddedView || hasReferrer || isWeChat || isX;
         
-        // Email Templates
-        const templates = {
-            standard: `Dear Senator [SENATOR_NAME],
+        // Email Template (single)
+        const baseTemplate = `Dear Senator [SENATOR_NAME],
 
-I am writing as a constituent to express my strong opposition to ACA7.
+ACA-7 is a direct threat to California's constitutional ban on racial and sex discrimination.
 
-California Proposition 209, passed in 1996, established a crucial constitutional ban on preferential treatment based on race, sex, or ethnicity. ACA7 threatens to gut this protection by creating unlimited "exceptions."
+This legislation would allow schools, colleges, and universities to discriminate and grant preferential treatment based on race or sex—undermining decades of progress toward equal treatment under the law.
 
-ACA7 claims to create limited exceptions, but in reality it opens the door to systemic discrimination. The voters of California have repeatedly rejected attempts to undermine Prop 209—in 2020, they rejected Prop 16.
+California voters spoke clearly in 2020 when they rejected Prop 16. They don't want discrimination, and they are tired of having to fight their legislators on this.
 
-I urge you to vote AGAINST ACA7 and protect the equal rights guaranteed by Prop 209.
-
-Thank you for your consideration.
-
-Sincerely,
-[YOUR_NAME]`,
-            urgent: `URGENT: Please Oppose ACA7
-
-Senator [SENATOR_NAME],
-
-Time is running out. ACA7 is a direct threat to California's constitutional ban on racial and gender discrimination.
-
-This legislation would allow unlimited exceptions to Prop 209—undermining decades of progress toward equal treatment under the law.
-
-California voters spoke clearly in 2020 when they rejected Prop 16. They don't want discrimination, even with a "limited" exceptions clause.
-
-Please vote NO on ACA7.
+Please vote NO on ACA-7.
 
 Respectfully,
-[YOUR_NAME]`,
-            personal: `Dear Senator [SENATOR_NAME],
 
-My name is [YOUR_NAME], and I'm a constituent.
+[YOUR_NAME]
+[YOUR_ADDRESS]`;
 
-I'm writing to share my personal concern about ACA7 and its threat to California's values of equality.
-
-Prop 209 has been a cornerstone of anti-discrimination law in California for nearly 30 years. It ensures that all Californians—regardless of race, sex, or ethnicity—are treated equally.
-
-ACA7 would undermine this protection by creating broad "exceptions" that could be used to justify discrimination.
-
-As someone who believes in equal opportunity for all Californians, I urge you to vote against ACA7.
-
-Thank you for your service to our state.
-
-Warm regards,
-[YOUR_NAME]`
-        };
         
-        // Initialize
-        let currentTemplate = 'urgent';
-        document.getElementById('emailBody').value = templates.urgent;
-        
-        // Template buttons
-        document.querySelectorAll('.template-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.template-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentTemplate = btn.dataset.template;
-                updateTemplate();
-            });
-        });
-        
-        function updateTemplate() {
-            let body = templates[currentTemplate];
-            if (matchedSenator) {
-                body = body.replace(/\[SENATOR_NAME\]/g, matchedSenator.name.split(' ')[1]); // Just last name
-            } else {
-                body = body.replace(/\[SENATOR_NAME\]/g, '[SENATOR NAME]');
+        const applyEmbeddedMode = () => {
+            const root = document.querySelector('.aca7-inline-wrapper');
+            if (root) root.setAttribute('data-embedded', embeddedMode ? '1' : '0');
+            const disableForm = isWeChat || isX;
+            const form = document.getElementById('emailForm');
+            if (form) {
+                form.querySelectorAll('input, textarea, button, select').forEach(el => {
+                    if (el.id === 'statsToggleBtn') {
+                        el.disabled = false;
+                        return;
+                    }
+                    el.disabled = disableForm;
+                });
             }
+            const note = document.getElementById('openInBrowser');
+            if (note) {
+                const showNote = embeddedMode || isX;
+                note.style.display = showNote ? 'block' : 'none';
+                note.textContent = isWeChat
+                    ? '重要提示：微信自带的浏览器不支持本页面，请先切换至系统浏览器中打开以完成自动操作'
+                    : isX
+                        ? 'Important: The X (Twitter) in-app browser may not support this page. Please open in your system browser to complete the action.'
+                        : 'Note: Please use this tool in your system browser for best experience.';
+            }
+            const status = document.getElementById('embedStatus');
+            if (status) status.textContent = (embeddedMode || isX)
+                ? (isWeChat
+                    ? '重要提示：微信自带的浏览器不支持本页面，请先切换至系统浏览器中打开以完成自动操作'
+                    : isX
+                        ? 'Detected X (Twitter) in-app browser. If send buttons misbehave, open in your system browser.'
+                        : 'Detected embedded/in-app view. If send buttons misbehave, open in your browser.')
+                : '';
+            if (isWeChat && !window._wechatPopupShown) {
+                window._wechatPopupShown = true;
+                alert('重要提示：微信自带的浏览器不支持本页面，请先切换至系统浏览器中打开以完成自动操作');
+            }
+            if (isX && !window._xPopupShown) {
+                window._xPopupShown = true;
+                alert('Important: The X (Twitter) in-app browser may not support this page. Please open in your system browser to complete the action.');
+            }
+        };
+
+        // Initialize
+        applyEmbeddedMode();
+        document.getElementById('emailBody').value = baseTemplate;
+        
+                        function validateFields() {
+            const yourName = document.getElementById('yourName').value.trim();
+            const yourEmail = document.getElementById('yourEmail').value.trim();
+            const street = document.getElementById('streetAddress').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const zip = document.getElementById('zip').value.trim();
+            if (!yourName || !yourEmail || !street || !city || !zip) {
+                alert('Please complete Name, Email, Street, City, and ZIP.');
+                return null;
+            }
+            if (!/^\d{5}$/.test(zip)) {
+                alert('ZIP must be exactly 5 digits.');
+                return null;
+            }
+            return { yourName, yourEmail, street, city, zip };
+        }
+
+        function updateTemplate() {
+            let body = baseTemplate;
+            const name = document.getElementById('yourName').value || '[YOUR_NAME]';
+            const street = document.getElementById('streetAddress').value || '';
+            const city = document.getElementById('city').value || '';
+            const zip = document.getElementById('zip').value || '';
+            const fullAddr = [street, city, zip].filter(Boolean).join(', ');
+            const senName = matchedSenator ? matchedSenator.name.split(' ').slice(-1)[0] : '[SENATOR_NAME]';
+            body = body.replace(/\[YOUR_NAME\]/g, name).replace(/\[YOUR_ADDRESS\]/g, fullAddr || '[YOUR_ADDRESS]').replace(/\[SENATOR_NAME\]/g, senName);
             document.getElementById('emailBody').value = body;
         }
         
@@ -566,7 +606,7 @@ Warm regards,
         if (debug.enabled) {
             document.getElementById('debugPanel').style.display = 'block';
         }
-
+        
         const GOOGLE_MAPS_API_KEY = 'AIzaSyByg4sXB7I7KwuVoocEPE3aPnY9CDbS-O0';
         const NORTH_CA_LAT_SPLIT = 38.4;
         const CENTRAL_CA_LAT_SPLIT = 35.6;
@@ -623,6 +663,11 @@ Warm regards,
                 if (response.ok) {
                     const data = await response.json();
                     const place = Array.isArray(data.places) ? data.places[0] : null;
+                    const stateAbbr = place && typeof place['state abbreviation'] === 'string' ? place['state abbreviation'].trim().toUpperCase() : '';
+                    if (stateAbbr && stateAbbr !== 'CA') {
+                        locationResolutionCache.set(cacheKey, null);
+                        return null;
+                    }
                     const lat = place ? Number(place.latitude) : NaN;
                     const lng = place ? Number(place.longitude) : NaN;
                     if (Number.isFinite(lat) && Number.isFinite(lng)) {
@@ -643,6 +688,14 @@ Warm regards,
                 geocoder.geocode({ address }, (results, status) => {
                     if (status === 'OK' && results && results[0]) {
                         const result = results[0];
+                        const components = Array.isArray(result.address_components) ? result.address_components : [];
+                        const stateComponent = components.find((component) => Array.isArray(component.types) && component.types.includes('administrative_area_level_1'));
+                        const stateAbbr = stateComponent && typeof stateComponent.short_name === 'string' ? stateComponent.short_name.trim().toUpperCase() : '';
+                        if (stateAbbr && stateAbbr !== 'CA') {
+                            locationResolutionCache.set(cacheKey, null);
+                            resolve(null);
+                            return;
+                        }
                         const resolved = {
                             address,
                             lat: result.geometry.location.lat(),
@@ -724,16 +777,22 @@ Warm regards,
             return resolvedSenators.sort((a,b)=>b.count-a.count);
         }
 
-        function createPersistentMarkerLabel(map, item) {
-            const nameWithoutTitle = item.name.replace(/^Senator\s+/i, '').trim();
-            const parts = nameWithoutTitle.split(/\s+/).filter(Boolean);
-            const lastName = parts.length ? parts[parts.length - 1] : nameWithoutTitle;
-            const labelText = `Senator ${lastName}: ${item.count || 1}`;
+        function createPersistentMarkerLabel(map, item, clickHandler = null) {
+            const isSenator = Boolean(item.name);
+            const labelText = isSenator
+                ? (() => {
+                    const nameWithoutTitle = item.name.replace(/^Senator\s+/i, '').trim();
+                    const parts = nameWithoutTitle.split(/\s+/).filter(Boolean);
+                    const lastName = parts.length ? parts[parts.length - 1] : nameWithoutTitle;
+                    return `Senator ${lastName}: ${item.count || 1}`;
+                })()
+                : `ZIP ${item.zip || item.address}: ${item.count || 1}`;
             class MarkerLabelOverlay extends google.maps.OverlayView {
-                constructor(position, text) {
+                constructor(position, text, clickHandler) {
                     super();
                     this.position = position;
                     this.text = text;
+                    this.clickHandler = clickHandler;
                     this.div = null;
                 }
                 onAdd() {
@@ -748,11 +807,19 @@ Warm regards,
                     div.style.color = '#174ea6';
                     div.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18)';
                     div.style.whiteSpace = 'nowrap';
-                    div.style.pointerEvents = 'none';
+                    div.style.pointerEvents = this.clickHandler ? 'auto' : 'none';
+                    div.style.cursor = this.clickHandler ? 'pointer' : 'default';
                     div.textContent = this.text;
+                    if (this.clickHandler) {
+                        div.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            this.clickHandler();
+                        });
+                    }
                     this.div = div;
                     const panes = this.getPanes();
-                    panes.overlayLayer.appendChild(div);
+                    (this.clickHandler ? panes.overlayMouseTarget : panes.overlayLayer).appendChild(div);
                 }
                 draw() {
                     if (!this.div) return;
@@ -767,7 +834,7 @@ Warm regards,
                     this.div = null;
                 }
             }
-            const overlay = new MarkerLabelOverlay({ lat: item.lat, lng: item.lng }, labelText);
+            const overlay = new MarkerLabelOverlay({ lat: item.lat, lng: item.lng }, labelText, clickHandler);
             overlay.setMap(map);
             return overlay;
         }
@@ -794,17 +861,32 @@ Warm regards,
 
             const infoWindow = new google.maps.InfoWindow({
                 content: item.name
-                    ? `<div style="min-width:220px"><strong>${item.name}</strong><br>${count} email${count === 1 ? '' : 's'} total${item.lastSent ? `<br>Last sent: ${new Date(item.lastSent).toLocaleString()}` : ''}<br><span style="color:#666;font-size:12px;">Click to drill down into ZIP locations</span></div>`
+                    ? `<div class="drilldown-trigger" style="min-width:220px; cursor:pointer;"><strong>${item.name}</strong><br>${count} email${count === 1 ? '' : 's'} total${item.lastSent ? `<br>Last sent: ${new Date(item.lastSent).toLocaleString()}` : ''}<br><span style="color:#174ea6;font-size:12px;font-weight:700;">Click to drill down to ZIP code view</span></div>`
                     : `<div style="min-width:180px"><strong>${item.address}</strong><br>${count} email${count === 1 ? '' : 's'} sent${item.lastSent ? `<br>Last sent: ${new Date(item.lastSent).toLocaleString()}` : ''}</div>`
             });
 
-            if (isSenator) {
-                marker._labelOverlay = createPersistentMarkerLabel(map, item);
+            const openMarkerInfo = () => {
+                infoWindow.open({ anchor: marker, map });
+            };
+
+            if (isSenator && clickHandler) {
+                infoWindow.addListener('domready', () => {
+                    const trigger = document.querySelector('.drilldown-trigger');
+                    if (trigger && !trigger.dataset.bound) {
+                        trigger.dataset.bound = '1';
+                        trigger.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            event.stopPropagation();
+                            clickHandler(item);
+                        });
+                    }
+                });
             }
 
+            marker._labelOverlay = createPersistentMarkerLabel(map, item, isSenator ? openMarkerInfo : null);
+
             marker.addListener('click', () => {
-                infoWindow.open({ anchor: marker, map });
-                if (clickHandler) clickHandler(item);
+                openMarkerInfo();
             });
             return marker;
         }
@@ -815,40 +897,56 @@ Warm regards,
             locations.forEach(({ lat, lng }) => bounds.extend({ lat, lng }));
             map.fitBounds(bounds, 60);
             google.maps.event.addListenerOnce(map, 'bounds_changed', () => {
+                map.panTo(bounds.getCenter());
                 if (map.getZoom() > maxZoom) map.setZoom(maxZoom);
                 if (minZoom !== null && map.getZoom() < minZoom) map.setZoom(minZoom);
             });
         }
 
+        function scheduleMapFit(map, locations, maxZoom = 8, minZoom = null) {
+            if (!map || !locations.length) return;
+            [50, 250, 750].forEach((delay) => {
+                setTimeout(() => {
+                    google.maps.event.trigger(map, 'resize');
+                    fitMapToLocations(map, locations, maxZoom, minZoom);
+                }, delay);
+            });
+        }
+
         function splitByRegion(locations) {
             return {
-                north: locations.filter(loc => loc.lat >= NORTH_CA_LAT_SPLIT),
-                central: locations.filter(loc => loc.lat < NORTH_CA_LAT_SPLIT && loc.lat >= CENTRAL_CA_LAT_SPLIT),
+                north: locations.filter(loc => loc.lat >= CENTRAL_CA_LAT_SPLIT),
                 south: locations.filter(loc => loc.lat < CENTRAL_CA_LAT_SPLIT)
             };
         }
 
+        function ensureMapElementSize(elementId, height = '460px') {
+            const el = document.getElementById(elementId);
+            if (!el) return null;
+            el.style.display = 'block';
+            el.style.height = height;
+            el.style.minHeight = height;
+            el.style.width = '100%';
+            return el;
+        }
+
         function ensureRegionMaps() {
-            if (!northMapInstance) {
-                northMapInstance = new google.maps.Map(document.getElementById('northLocationMap'), { center: { lat: 39.5, lng: -121.8 }, zoom: 7, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
+            const northEl = ensureMapElementSize('northLocationMap');
+            const southEl = ensureMapElementSize('southLocationMap');
+            const drillEl = ensureMapElementSize('drilldownLocationMap');
+            if (!northMapInstance && northEl) {
+                northMapInstance = new google.maps.Map(northEl, { center: { lat: 37.6, lng: -121.0 }, zoom: 7, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
             }
-            if (!centralMapInstance) {
-                centralMapInstance = new google.maps.Map(document.getElementById('centralLocationMap'), { center: { lat: 36.7, lng: -119.7 }, zoom: 7, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
+            if (!southMapInstance && southEl) {
+                southMapInstance = new google.maps.Map(southEl, { center: { lat: 33.8, lng: -117.9 }, zoom: 7, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
             }
-            if (!southMapInstance) {
-                southMapInstance = new google.maps.Map(document.getElementById('southLocationMap'), { center: { lat: 33.8, lng: -117.9 }, zoom: 7, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
-            }
-            if (!drilldownMapInstance) {
-                drilldownMapInstance = new google.maps.Map(document.getElementById('drilldownLocationMap'), { center: { lat: 36.7783, lng: -119.4179 }, zoom: 6, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
+            if (!drilldownMapInstance && drillEl) {
+                drilldownMapInstance = new google.maps.Map(drillEl, { center: { lat: 36.7783, lng: -119.4179 }, zoom: 6, mapTypeControl: false, streetViewControl: false, fullscreenControl: true });
             }
         }
 
         function clearRegionMarkers() {
             northMapMarkers.forEach(marker => {
-                if (marker._labelOverlay) marker._labelOverlay.setMap(null);
-                marker.setMap(null);
-            });
-            centralMapMarkers.forEach(marker => {
                 if (marker._labelOverlay) marker._labelOverlay.setMap(null);
                 marker.setMap(null);
             });
@@ -861,29 +959,79 @@ Warm regards,
                 marker.setMap(null);
             });
             northMapMarkers = [];
-            centralMapMarkers = [];
             southMapMarkers = [];
             drilldownMapMarkers = [];
         }
 
-        function updateRegionStatuses(northText, centralText, southText, topText, title, canGoBack) {
+        function updateRegionStatuses(northText, southText, topText, title, canGoBack) {
             document.getElementById('northMapStatus').textContent = northText;
-            document.getElementById('centralMapStatus').textContent = centralText;
             document.getElementById('southMapStatus').textContent = southText;
             document.getElementById('splitMapStatus').textContent = topText;
             document.getElementById('mapViewTitle').textContent = title;
             document.getElementById('mapBackBtn').disabled = !canGoBack;
         }
 
+        function refreshVisibleMaps() {
+            [northMapInstance, centralMapInstance, southMapInstance, drilldownMapInstance].forEach((map) => {
+                if (map) google.maps.event.trigger(map, 'resize');
+            });
+        }
+
+        function showMapUnavailableFallback() {
+            const topLevelMaps = document.getElementById('topLevelMaps');
+            const drilldownMapCard = document.getElementById('drilldownMapCard');
+            if (topLevelMaps) topLevelMaps.style.display = 'none';
+            if (drilldownMapCard) drilldownMapCard.style.display = 'none';
+            updateRegionStatuses(
+                'Map not available for now please try later.',
+                'Map not available for now please try later.',
+                'Map not available for now please try later.',
+                'All Senators',
+                false
+            );
+        }
+
+        function mapAppearsAvailable() {
+            if (document.body.innerText.includes('Oops! Something went wrong.')) return false;
+            const hasGoogleError = document.querySelector('.gm-err-container, .gm-err-content, .gm-err-title');
+            if (hasGoogleError) return false;
+            const visibleMap = ['northLocationMap', 'southLocationMap', 'drilldownLocationMap']
+                .map((id) => document.getElementById(id))
+                .filter(Boolean)
+                .some((el) => {
+                    const rect = el.getBoundingClientRect();
+                    return rect.width > 0 && rect.height > 0;
+                });
+            return visibleMap;
+        }
+
+        function verifyMapsOrFallback(delayMs = 2500) {
+            setTimeout(() => {
+                if (!mapAppearsAvailable()) {
+                    showMapUnavailableFallback();
+                }
+            }, delayMs);
+        }
+
         function setMapMode(mode) {
             const topLevelMaps = document.getElementById('topLevelMaps');
             const drilldownMapCard = document.getElementById('drilldownMapCard');
+            const refreshMapBtn = document.getElementById('refreshMapBtn');
+            const mapBackBtn = document.getElementById('mapBackBtn');
             if (mode === 'senator') {
                 topLevelMaps.classList.add('hidden');
+                topLevelMaps.style.display = 'none';
                 drilldownMapCard.classList.remove('hidden');
+                drilldownMapCard.style.display = 'block';
+                if (refreshMapBtn) refreshMapBtn.style.display = 'none';
+                if (mapBackBtn) mapBackBtn.style.display = 'inline-block';
             } else {
                 topLevelMaps.classList.remove('hidden');
+                topLevelMaps.style.display = 'grid';
                 drilldownMapCard.classList.add('hidden');
+                drilldownMapCard.style.display = 'none';
+                if (refreshMapBtn) refreshMapBtn.style.display = 'inline-block';
+                if (mapBackBtn) mapBackBtn.style.display = 'none';
             }
         }
 
@@ -896,7 +1044,7 @@ Warm regards,
             const senatorAggregates = await resolveSenatorAggregates(usageData);
             if (!senatorAggregates.length) {
                 setMapMode('senators');
-                updateRegionStatuses('No points to show.', 'No points to show.', 'No points to show.', 'Could not resolve any saved sender locations.', 'All Senators', false);
+                updateRegionStatuses('No points to show.', 'No points to show.', 'Could not resolve any saved sender locations.', 'All Senators', false);
                 return;
             }
 
@@ -908,11 +1056,14 @@ Warm regards,
                 }
                 setMapMode('senator');
                 target.locations.forEach(loc => drilldownMapMarkers.push(createMarkerForMap(drilldownMapInstance, loc)));
-                if (target.locations.length) fitMapToLocations(drilldownMapInstance, target.locations, 9, 6);
+                refreshVisibleMaps();
+                if (target.locations.length) {
+                    scheduleMapFit(drilldownMapInstance, target.locations, 9, 6);
+                }
+                verifyMapsOrFallback();
                 document.getElementById('drilldownMapHeading').textContent = `${target.name} ZIP Drill-Down Map`;
                 document.getElementById('drilldownMapStatus').textContent = `${target.locations.length} ZIP location${target.locations.length === 1 ? '' : 's'} across ${target.count} total email${target.count === 1 ? '' : 's'}.`;
                 updateRegionStatuses(
-                    'Top-level map hidden while drilling down.',
                     'Top-level map hidden while drilling down.',
                     'Top-level map hidden while drilling down.',
                     `${target.name}: ${target.count} total email${target.count === 1 ? '' : 's'}. Showing one dedicated ZIP drill-down map.`,
@@ -925,15 +1076,14 @@ Warm regards,
             setMapMode('senators');
             const regions = splitByRegion(senatorAggregates);
             regions.north.forEach(item => northMapMarkers.push(createMarkerForMap(northMapInstance, item, () => drillDownToSenator(item.name))));
-            regions.central.forEach(item => centralMapMarkers.push(createMarkerForMap(centralMapInstance, item, () => drillDownToSenator(item.name))));
             regions.south.forEach(item => southMapMarkers.push(createMarkerForMap(southMapInstance, item, () => drillDownToSenator(item.name))));
-            if (regions.north.length) fitMapToLocations(northMapInstance, regions.north, 9, 6);
-            if (regions.central.length) fitMapToLocations(centralMapInstance, regions.central, 8, 6);
-            if (regions.south.length) fitMapToLocations(southMapInstance, regions.south, 8, 6);
+            refreshVisibleMaps();
+            if (regions.north.length) scheduleMapFit(northMapInstance, regions.north, 8, 5);
+            if (regions.south.length) scheduleMapFit(southMapInstance, regions.south, 8, 5);
+            verifyMapsOrFallback();
             updateRegionStatuses(
-                regions.north.length ? `${regions.north.length} senator marker${regions.north.length === 1 ? '' : 's'}.` : 'No Northern California senator markers.',
-                regions.central.length ? `${regions.central.length} senator marker${regions.central.length === 1 ? '' : 's'}.` : 'No Central California senator markers.',
-                regions.south.length ? `${regions.south.length} senator marker${regions.south.length === 1 ? '' : 's'}.` : 'No Southern California senator markers.',
+                regions.north.length ? `Emails Sent to ${regions.north.length} Senator${regions.north.length === 1 ? '' : 's'}` : 'No Northern California senators with mapped emails.',
+                regions.south.length ? `Emails Sent to ${regions.south.length} Senator${regions.south.length === 1 ? '' : 's'}` : 'No Southern California senators with mapped emails.',
                 `Showing all recorded emails grouped by senator. Click a labeled marker to drill down into ZIP-level senders.`,
                 'All Senators',
                 false
@@ -950,6 +1100,7 @@ Warm regards,
             renderMapView();
         }
         
+
         async function loadData() {
             try {
                 const res = await fetch("data/40senators.json?v=1", { cache: "reload" });
@@ -960,7 +1111,7 @@ Warm regards,
                         debug.log("DATA", `Loaded 40senators.json (${senators.length})`);
                         const manual = document.getElementById('manualSenator');
                         if (manual) {
-                            manual.innerHTML = '<option value="">-- Select a Senator --</option>' + senators.map(s => `<option value="${s.district}">${s.name} (District ${s.district})</option>`).join('');
+                            manual.innerHTML = '<option value="">-- Select a Senator --</option>' + senators.map(s => `<option value="${s.district}">${displayName(s)} (District ${s.district})</option>`).join('');
                         }
                     }
                 }
@@ -1064,7 +1215,7 @@ Warm regards,
                 Please select your senator:<br><br>
                 <select id="manualSenator" onchange="manualSelectSenator(this)" style="width: 100%; padding: 10px; margin-top: 8px;">
                     <option value="">-- Select Your Senator --</option>
-                    ${senators.map(s => `<option value="${s.district}">${s.name} (District ${s.district})</option>`).join('')}
+                    ${senators.map(s => `<option value="${s.district}">${displayName(s)} (District ${s.district})</option>`).join('')}
                 </select>
             </div>`;
             
@@ -1105,74 +1256,11 @@ Warm regards,
                 }
             }
         }
-
-        function isLikelyNonSystemBrowser() {
-            const ua = navigator.userAgent || '';
-            const inAppPatterns = [
-                /FBAN|FBAV/i,
-                /Instagram/i,
-                /Line\//i,
-                /MicroMessenger/i,
-                /Twitter/i,
-                /; wv\)/i,
-                /WebView/i
-            ];
-            const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
-            return inAppPatterns.some((re) => re.test(ua)) || isStandalone;
-        }
-
-        async function copyCurrentPageLink() {
-            const pageUrl = window.location.href;
-            try {
-                if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(pageUrl);
-                    return true;
-                }
-            } catch (e) {
-                // fallback below
-            }
-
-            try {
-                const textarea = document.createElement('textarea');
-                textarea.value = pageUrl;
-                textarea.setAttribute('readonly', '');
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                document.body.appendChild(textarea);
-                textarea.select();
-                textarea.setSelectionRange(0, textarea.value.length);
-                const ok = document.execCommand('copy');
-                document.body.removeChild(textarea);
-                return !!ok;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        async function handleNonSystemBrowserNotice() {
-            if (!isLikelyNonSystemBrowser()) return;
-
-            const copied = await copyCurrentPageLink();
-            const message = copied
-                ? 'Detected an in-app browser. This page link has been copied to your clipboard. Open it in your system browser for a smoother send flow.'
-                : 'Detected an in-app browser. Please copy this page URL and open it in your system browser for a smoother send flow.';
-
-            const successEl = document.getElementById('successMsg');
-            if (successEl) {
-                successEl.style.display = 'block';
-                successEl.textContent = `ℹ️ ${message}`;
-            }
-
-            alert(message);
-        }
         
         function showSenatorFound(senator) {
             matchedSenator = senator;
             const resultDiv = document.getElementById('lookupResult');
-            resultDiv.innerHTML = `<div class="senator-found">
-                ✅ <strong>Found your senator:</strong> ${senator.name}<br>
-                District ${senator.district} • ${senator.county}
-            </div>`;
+            resultDiv.innerHTML = `<div class="senator-found">✅ Found your senator: <strong>${senator.name}</strong> — District ${senator.district} • ${senator.county}</div>`;
             
             // Update recipient summary
             document.getElementById('recipientSummary').style.display = 'block';
@@ -1197,87 +1285,60 @@ Warm regards,
         }
         
         // Form submission
-        document.getElementById('emailForm').addEventListener('submit', async (e) => {
+        document.getElementById('emailForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const yourName = document.getElementById('yourName').value.trim();
-            const yourEmail = document.getElementById('yourEmail').value.trim();
+            const validated = validateFields();
+            if (!validated) return;
+            const { yourName, yourEmail, street, city, zip } = validated;
             const subject = document.getElementById('emailSubject').value.trim();
-            const zip = document.getElementById('zip').value.trim();
             let body = document.getElementById('emailBody').value.trim();
-            
-            debug.log('SUBMIT', 'Form submitted');
-            debug.log('SUBMIT', `User: ${yourName}, Email: ${yourEmail}`);
-            
-            // Replace placeholders
             const senatorLastName = matchedSenator ? matchedSenator.name.split(' ')[1] : 'Senator';
+            const fullAddress = [street, city, zip ? `CA ${zip}` : ''].filter(Boolean).join(', ');
             body = body.replace(/\[SENATOR_NAME\]/g, senatorLastName);
             body = body.replace(/\[YOUR_NAME\]/g, yourName);
-            
-            // Add full address to body (at the bottom)
-            const street = document.getElementById('streetAddress').value.trim();
-            const city = document.getElementById('city').value.trim();
-            if (street || city || zip) {
-                body = `${body}\n\nMy Address: ${street}, ${city}, CA ${zip}`;
+            body = body.replace(/\[YOUR_ADDRESS\]/g, fullAddress || '[YOUR_ADDRESS]');
+            if (!matchedSenator) {
+                alert('Please find or select your senator first.');
+                return;
             }
-            
-            debug.log('SUBMIT', `Senator: ${matchedSenator ? matchedSenator.name : 'None (sending to all)'}`);
-            
-            // Build email recipients
             let toEmail, bccList;
-            
-            if (matchedSenator) {
-                // Primary recipient: senator + assistant if available
-                if (matchedSenator.assistant) {
-                    toEmail = `${matchedSenator.email},${matchedSenator.assistant}`;
-                } else {
-                    toEmail = matchedSenator.email;
-                }
-                // BCC: targeted list from senators.json (exclude matched)
-                bccList = buildTargetedBCC(matchedSenator.district);
-                debug.log('SUBMIT', `To: ${toEmail}`);
-                debug.log('SUBMIT', `BCC: ${bccList.substring(0, 100)}...`);
-            } else {
-                // No senator matched - send to targeted list
-                toEmail = senators[0].email;
-                bccList = buildTargetedBCC(null);
-                debug.log('SUBMIT', 'No senator matched - sending to targeted BCC list');
-            }
-            
-            debug.log('SUBMIT', `Subject: ${subject}`);
-            debug.log('SUBMIT', `Body length: ${body.length} chars`);
-            
-            // Create mailto link with proper encoding
+            toEmail = matchedSenator.assistant ? `${matchedSenator.email},${matchedSenator.assistant}` : matchedSenator.email;
+            bccList = buildTargetedBCC(matchedSenator.district);
             const encodeMailto = (str) => encodeURIComponent(str);
             const mailtoLink = `mailto:${encodeMailto(toEmail)}?subject=${encodeMailto(subject)}&body=${encodeMailto(body)}&bcc=${encodeMailto(bccList)}`;
-            
-            debug.log('SUBMIT', 'Opening email client...');
-            
-            // Record usage
             if (matchedSenator) {
-                const city = document.getElementById('city').value.trim();
-                recordSend(matchedSenator.name, city, zip);
+                recordSend(matchedSenator.name, city, zip, yourName, fullAddress, yourEmail);
             }
-            
-            // Show success and open email client
-            document.getElementById('successMsg').style.display = 'block';
-            document.getElementById('emailForm').classList.add('loading');
-
-            await handleNonSystemBrowserNotice();
-            window.location.href = mailtoLink;
-            
+            const msg = document.getElementById('successMsg');
+            if (msg) {
+                msg.textContent = 'Email composer opened! Complete and send from your email client.';
+                msg.style.display = 'block';
+            }
+            const formEl = document.getElementById('emailForm');
+            if (formEl) formEl.classList.add('loading');
+            // More compatible mailto launch (helps iOS Safari in iframes)
+            const a = document.createElement('a');
+            a.href = mailtoLink;
+            a.target = '_self';
+            a.rel = 'noreferrer';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
             setTimeout(() => {
-                document.getElementById('emailForm').classList.remove('loading');
-                debug.log('DONE', 'Email client should be open now');
-            }, 2000);
+                a.remove();
+                if (formEl) formEl.classList.remove('loading');
+            }, 1500);
         });
+
+        // Use Gmail compose function
         
         // ========== USAGE TRACKING (Backend) ==========
-        const API_URL = '';
+        const API_URL = '/wp-json/erfa/v1/usage';
         
         async function getUsageData() {
             try {
-                const response = await fetch('/wp-json/erfa/v1/usage');
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('HTTP ' + response.status);
                 return await response.json();
             } catch (e) {
                 console.log('Using localStorage fallback');
@@ -1286,48 +1347,42 @@ Warm regards,
             }
         }
         
-        async function recordSend(senatorName, city, zipCode) {
-            try {
-                const response = await fetch('/wp-json/erfa/v1/usage', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ senator: senatorName, city: city, zip: zipCode })
-                });
-                const result = await response.json();
-                if (result.success) {
-                    await updateUsageDisplay();
-                    await renderMapView();
-                    return;
-                }
-            } catch (e) {
-                console.log('API failed, using localStorage');
-            }
-            
-            // Fallback to localStorage
+        async function recordSend(senatorName, city, zipCode, userName, fullAddress, userEmail) {
             const dataStr = localStorage.getItem('aca7_email_usage');
             let data = dataStr ? JSON.parse(dataStr) : { count: 0, recentSends: [], locations: {}, senators: {} };
-            data.count += 1;
             const normalizedCity = typeof city === 'string' ? city.trim() : '';
             const normalizedZip = typeof zipCode === 'string' || typeof zipCode === 'number' ? String(zipCode).trim() : '';
+            const fullAddr = fullAddress || (normalizedCity && normalizedZip ? `${normalizedCity}, CA ${normalizedZip}` : '');
+            const last = data.recentSends && data.recentSends[0];
+            const isDuplicate = last && last.name === userName && last.address === fullAddr && last.zip === normalizedZip && last.email === userEmail;
+            if (isDuplicate) {
+                await updateUsageDisplay();
+                await renderMapView();
+                return;
+            }
+            let posted = false;
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ senator: senatorName, city: normalizedCity, zip: normalizedZip, name: userName, address: fullAddr })
+                });
+                const result = await response.json();
+                if (result.success) posted = true;
+            } catch (e) {
+                console.log('API failed, falling back to localStorage');
+            }
             const time = new Date().toISOString();
-            data.recentSends.unshift({
-                senator: senatorName,
-                city: normalizedCity,
-                zip: normalizedZip,
-                time
-            });
-            data.recentSends = data.recentSends.slice(0, 10);
+            data.count = posted ? data.count : (data.count || 0) + 1;
+            data.recentSends = [
+                { senator: senatorName, city: normalizedCity, zip: normalizedZip, name: userName, email: userEmail, address: fullAddr, time },
+                ...(data.recentSends || [])
+            ];
             data.locations = data.locations && typeof data.locations === 'object' ? data.locations : {};
             data.senators = data.senators && typeof data.senators === 'object' ? data.senators : {};
             if (normalizedCity || normalizedZip) {
                 const key = `${normalizedCity.toLowerCase()}|${normalizedZip}`;
-                const existing = data.locations[key] || {
-                    city: normalizedCity,
-                    zip: normalizedZip,
-                    count: 0,
-                    firstSent: time,
-                    lastSent: time
-                };
+                const existing = data.locations[key] || { city: normalizedCity, zip: normalizedZip, count: 0, firstSent: time, lastSent: time };
                 existing.city = existing.city || normalizedCity;
                 existing.zip = existing.zip || normalizedZip;
                 existing.count += 1;
@@ -1335,24 +1390,12 @@ Warm regards,
                 existing.lastSent = time;
                 data.locations[key] = existing;
 
-                const senatorEntry = data.senators[senatorName] || {
-                    name: senatorName,
-                    count: 0,
-                    firstSent: time,
-                    lastSent: time,
-                    locations: {}
-                };
+                const senatorEntry = data.senators[senatorName] || { name: senatorName, count: 0, firstSent: time, lastSent: time, locations: {} };
                 senatorEntry.count += 1;
                 senatorEntry.firstSent = senatorEntry.firstSent || time;
                 senatorEntry.lastSent = time;
                 senatorEntry.locations = senatorEntry.locations && typeof senatorEntry.locations === 'object' ? senatorEntry.locations : {};
-                const senatorLoc = senatorEntry.locations[key] || {
-                    city: normalizedCity,
-                    zip: normalizedZip,
-                    count: 0,
-                    firstSent: time,
-                    lastSent: time
-                };
+                const senatorLoc = senatorEntry.locations[key] || { city: normalizedCity, zip: normalizedZip, count: 0, firstSent: time, lastSent: time };
                 senatorLoc.city = senatorLoc.city || normalizedCity;
                 senatorLoc.zip = senatorLoc.zip || normalizedZip;
                 senatorLoc.count += 1;
@@ -1366,101 +1409,211 @@ Warm regards,
             await renderMapView();
         }
         
+        function renderTrend(data) {
+            const trendSection = document.getElementById('trendSection');
+            const trendContent = document.getElementById('trendContent');
+            if (!trendSection || !trendContent) return;
+            const sends = data.recentSends || [];
+            if (!sends.length) {
+                trendContent.innerHTML = '<p style="margin:0;">No data yet.</p>';
+                return;
+            }
+            // Aggregate into daily buckets for last 30 days; older entries bucketed by month
+            const now = Date.now();
+            const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+            const buckets = {};
+            sends.forEach(item => {
+                const pst = new Date(new Date(item.time).toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+                // Normalize to midnight PST for daily keys
+                const pstMid = new Date(pst);
+                pstMid.setHours(0,0,0,0);
+                const diff = now - pstMid.getTime();
+                let key;
+                if (diff <= THIRTY_DAYS) {
+                    key = pstMid.toISOString().substring(0,10); // YYYY-MM-DD
+                } else {
+                    key = pstMid.toISOString().substring(0,7); // YYYY-MM month bucket
+                }
+                buckets[key] = (buckets[key] || 0) + 1;
+            });
+            const entries = Object.entries(buckets).sort((a,b)=>a[0].localeCompare(b[0]));
+            const max = Math.max(...entries.map(e=>e[1]));
+            if (!entries.length) {
+                trendContent.innerHTML = '<p style="margin:0;">No data yet.</p>';
+                return;
+            }
+            const width = 120 * Math.max(1, entries.length);
+            const points = entries.map(([, count], idx) => {
+                const x = idx * 120 + 20;
+                const y = max ? 100 - (count / max) * 80 : 100;
+                return `${x},${y}`;
+            }).join(' ');
+            const circles = entries.map(([, count], idx) => {
+                const x = idx * 120 + 20;
+                const y = max ? 100 - (count / max) * 80 : 100;
+                return `<circle cx="${x}" cy="${y}" r="3" fill="#c00"></circle>`;
+            }).join('');
+            const labels = entries.map(([date, count], idx) => {
+                const x = idx * 120 + 20;
+                const label = date.length === 10 ? date.substring(5) : date; // show MM-DD or YYYY-MM
+                return `<text x="${x}" y="120" font-size="10" text-anchor="middle" fill="#555">${label}</text>
+                        <text x="${x}" y="110" font-size="10" text-anchor="middle" fill="#333">${count}</text>`;
+            }).join('');
+            const yTicks = [];
+            const tickVals = max > 0 ? [0, Math.ceil(max/2), max] : [0];
+            tickVals.forEach((val, i) => {
+                const y = max ? 100 - (val / max) * 80 : 100;
+                yTicks.push(`<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="#eee" stroke-width="1" />`);
+                yTicks.push(`<text x="-5" y="${y+4}" font-size="10" text-anchor="end" fill="#666">${val}</text>`);
+            });
+            trendContent.innerHTML = `
+                <svg width="100%" height="140" viewBox="-20 0 ${width+40} 140" preserveAspectRatio="xMinYMin meet">
+                    <line x1="0" y1="100" x2="${width}" y2="100" stroke="#ccc" stroke-width="1" />
+                    <line x1="0" y1="10" x2="0" y2="100" stroke="#ccc" stroke-width="1" />
+                    ${yTicks.join('')}
+                    <polyline fill="none" stroke="#c00" stroke-width="2" points="${points}" />
+                    ${circles}
+                    ${labels}
+                </svg>`;
+        }
+
         async function updateUsageDisplay() {
             const data = await getUsageData();
             document.getElementById('totalCount').textContent = data.count || 0;
             
-            if (data.recentSends && data.recentSends.length > 0) {
-                const section = document.getElementById('recentSendsSection');
+            const recent = (data.recentSends || []).slice(0, 20);
+            const section = document.getElementById('recentSendsSection');
+            if (recent.length > 0) {
                 section.style.display = 'block';
                 
-                const rowsHtml = data.recentSends.map((item) => {
-                    const date = new Date(item.time);
-                    const dateStr = `${(date.getMonth()+1).toString().padStart(2,'0')}/${date.getDate().toString().padStart(2,'0')} ${date.getHours().toString().padStart(2,'0')}:${date.getMinutes().toString().padStart(2,'0')}`;
+                const rowsHtml = recent.map((item) => {
+                    const dateStr = new Date(item.time).toLocaleString('en-US', {
+                        timeZone: 'America/Los_Angeles',
+                        month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false
+                    });
                     const city = typeof item.city === 'string' && item.city.trim() ? item.city.trim() : '—';
                     const zip = typeof item.zip === 'string' || typeof item.zip === 'number' ? String(item.zip).trim() || '—' : '—';
+                    const senatorDisplay = (item.senator || '').replace(/^Senator\s+/i, '').trim() || item.senator || '—';
                     return `<tr>
                         <td style="padding: 10px; border-bottom: 1px solid #eee;">${dateStr}</td>
-                        <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.senator}</td>
+                        <td style="padding: 10px; border-bottom: 1px solid #eee;">${senatorDisplay}</td>
                         <td style="padding: 10px; border-bottom: 1px solid #eee;">${city}</td>
                         <td style="padding: 10px; border-bottom: 1px solid #eee;">${zip}</td>
                     </tr>`;
                 }).join('');
                 
                 document.getElementById('recentSendsList').innerHTML = rowsHtml;
+            } else {
+                section.style.display = 'none';
+                document.getElementById('recentSendsList').innerHTML = '';
             }
+            renderTrend(data);
         }
         
+        function toggleStatsSection() {
+            const container = document.getElementById('sendingHistoryBottom');
+            const btn = document.getElementById('statsToggleBtn');
+            if (!container || !btn) return;
+            const showing = getComputedStyle(container).display !== 'none';
+            container.style.display = showing ? 'none' : 'block';
+            btn.textContent = showing ? 'Show Statistics' : 'Hide Statistics';
+            if (!showing) {
+                updateUsageDisplay();
+                renderMapView();
+            }
+        }
+
+        function refreshMapViewNow() {
+            renderMapView();
+        }
+
         // Load usage stats on page load
         updateUsageDisplay();
-        renderMapView();
         
         // Auto-refresh every 1 minute
         setInterval(() => {
             updateUsageDisplay();
-            renderMapView();
         }, 60000);
+
+        // Template radio change
+        function toggleTrend() {
+            const btn = document.getElementById('trendToggle');
+            const section = document.getElementById('trendSection');
+            if (!btn || !section) return;
+            const showing = section.style.display === 'block';
+            section.style.display = showing ? 'none' : 'block';
+            btn.textContent = showing ? 'Show Email Send Trend' : 'Hide Email Send Trend';
+            if (!showing) { updateUsageDisplay(); }
+        }
         
-        // Use Gmail compose function
-        async function openUseGmail() {
-            const yourName = document.getElementById('yourName').value.trim();
-            const yourEmail = document.getElementById('yourEmail').value.trim();
+        function buildWebmailComposePayload() {
+            const validated = validateFields();
+            if (!validated) return null;
+            const { yourName, yourEmail, street, city, zip } = validated;
             const subject = document.getElementById('emailSubject').value.trim();
             let body = document.getElementById('emailBody').value.trim();
-            const city = document.getElementById('city').value.trim();
-            const zip = document.getElementById('zip').value.trim();
-            
             if (!matchedSenator) {
-                alert('Please find your senator first');
-                return;
+                alert('Please find or select your senator first.');
+                return null;
             }
-            
-            const senatorLastName = matchedSenator.name.split(' ')[1];
+            const nameParts = matchedSenator.name.split(' ');
+            const senatorLastName = nameParts[nameParts.length - 1];
+            const fullAddress = [street, city, zip ? `CA ${zip}` : ''].filter(Boolean).join(', ');
             body = body.replace(/\[SENATOR_NAME\]/g, senatorLastName);
             body = body.replace(/\[YOUR_NAME\]/g, yourName);
-            
-            // Add full address to body (at the bottom)
-            const street = document.getElementById('streetAddress').value.trim();
-            if (street || city || zip) {
-                body = `${body}\n\nMy Address: ${street}, ${city}, CA ${zip}`;
-            }
-            
-            // Build recipients: senator + assistant if available
-            const toEmail = matchedSenator.assistant ? 
-                `${matchedSenator.email},${matchedSenator.assistant}` : 
-                matchedSenator.email;
+            body = body.replace(/\[YOUR_ADDRESS\]/g, fullAddress || '[YOUR_ADDRESS]');
+            const toEmail = matchedSenator.assistant ? `${matchedSenator.email},${matchedSenator.assistant}` : matchedSenator.email;
             const bccList = buildTargetedBCC(matchedSenator.district);
-            
-            // Use Gmail compose URL (use BCC)
-            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${encodeURIComponent(toEmail)}&bcc=${encodeURIComponent(bccList)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            
-            // Record usage
-            recordSend(matchedSenator.name, city, zip);
-            
-            // Open Use Gmail
-            document.getElementById('successMsg').style.display = 'block';
-            await handleNonSystemBrowserNotice();
-            window.open(gmailUrl, '_blank');
-            
-            setTimeout(() => {
-                debug.log('DONE', 'Use Gmail should be open now');
-            }, 2000);
+            return { yourName, yourEmail, city, zip, fullAddress, subject, body, toEmail, bccList };
         }
-        
-        // Pre-select template from URL
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('template') && templates[urlParams.get('template')]) {
-            const t = urlParams.get('template');
-            document.querySelectorAll('.template-btn').forEach(b => {
-                if (b.dataset.template === t) {
-                    b.classList.add('active');
-                } else {
-                    b.classList.remove('active');
-                }
-            });
-            currentTemplate = t;
-            updateTemplate();
+
+        function openComposeUrl(targetUrl, city, zip, yourName, fullAddress, yourEmail) {
+            const msg = document.getElementById('successMsg');
+            if (msg) {
+                msg.textContent = 'Email composer opened! Complete and send from your email client.';
+                msg.style.display = 'block';
+            }
+            recordSend(matchedSenator.name, city, zip, yourName, fullAddress, yourEmail);
+            const a = document.createElement('a');
+            a.href = targetUrl;
+            a.target = '_blank';
+            a.rel = 'noreferrer';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => a.remove(), 250);
         }
+
+        // Use Gmail compose function
+        function openGmail() {
+            const payload = buildWebmailComposePayload();
+            if (!payload) return;
+            const { yourName, yourEmail, city, zip, fullAddress, subject, body, toEmail, bccList } = payload;
+            const ua = navigator.userAgent || '';
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(ua);
+            const targetUrl = isMobile
+                ? `googlegmail://co?to=${encodeURIComponent(toEmail)}&bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+                : `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=${encodeURIComponent(toEmail)}&bcc=${encodeURIComponent(bccList)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            openComposeUrl(targetUrl, city, zip, yourName, fullAddress, yourEmail);
+        }
+
+        function openOutlookWebmail() {
+            const payload = buildWebmailComposePayload();
+            if (!payload) return;
+            const { yourName, yourEmail, city, zip, fullAddress, subject, body, toEmail, bccList } = payload;
+            const targetUrl = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(toEmail)}&bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            openComposeUrl(targetUrl, city, zip, yourName, fullAddress, yourEmail);
+        }
+
+        function openYahooMail() {
+            const payload = buildWebmailComposePayload();
+            if (!payload) return;
+            const { yourName, yourEmail, city, zip, fullAddress, subject, body, toEmail, bccList } = payload;
+            const targetUrl = `https://compose.mail.yahoo.com/?to=${encodeURIComponent(toEmail)}&bcc=${encodeURIComponent(bccList)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            openComposeUrl(targetUrl, city, zip, yourName, fullAddress, yourEmail);
+        }
+
+        // Template preselect removed (single template mode)
     </script>
 </body>
 </html>
