@@ -234,7 +234,7 @@ Respectfully,
     </div>
 
     <script>
-        // Detect if not in system browser (e.g., embedded in an app or iframe)
+        // Detect if not in a system browser (e.g., embedded webviews / in-app browsers)
 
         // Senator Data with district info for matching
         const defaultSenators = [
@@ -1372,7 +1372,7 @@ Respectfully,
             }
             const formEl = document.getElementById('emailForm');
             if (formEl) formEl.classList.add('loading');
-            // More compatible mailto launch (helps iOS Safari in iframes)
+            // More compatible mailto launch (helps iOS Safari and constrained in-app browsers)
             const a = document.createElement('a');
             a.href = mailtoLink;
             a.target = '_self';
