@@ -1,0 +1,56 @@
+{
+  "senators": [
+    {
+      "name": "Sasha Renée Pérez",
+      "district": "25",
+      "email": "Senator.Perez@senate.ca.gov",
+      "assistant": "Edmundo.Cuevas@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Rosilicie Ochoa Bogh",
+      "district": "19",
+      "email": "Senator.OchoaBogh@senate.ca.gov",
+      "assistant": "Sarah.Couch@sen.ca.gov",
+      "county": "Riverside, San Bernardino"
+    },
+    {
+      "name": "Christopher Cabaldon",
+      "district": "3",
+      "email": "Senator.Cabaldon@senate.ca.gov",
+      "assistant": "Aaron.Skaggs@sen.ca.gov",
+      "county": "Napa, Solano, Sonoma, Yolo"
+    },
+    {
+      "name": "Steven \"Steve\" Choi",
+      "district": "37",
+      "email": "Senator.Choi@senate.ca.gov",
+      "assistant": "David.Orosco@sen.ca.gov",
+      "county": "Orange"
+    },
+    {
+      "name": "Dave Cortese",
+      "district": "15",
+      "email": "Senator.Cortese@senate.ca.gov",
+      "assistant": "Sunshine.Borelli@sen.ca.gov",
+      "county": "Santa Clara"
+    },
+    {
+      "name": "Lena Gonzalez",
+      "district": "33",
+      "email": "Senator.Gonzalez@senate.ca.gov",
+      "assistant": "Cynthia.Alvarez@sen.ca.gov",
+      "county": "Los Angeles"
+    },
+    {
+      "name": "Eloise Gómez Reyes",
+      "district": "29",
+      "email": "Senator.Reyes@senate.ca.gov",
+      "assistant": "Matthew.Hamlett@sen.ca.gov",
+      "county": "San Bernardino"
+    }
+  ],
+  "source": "WordPress plugin source of truth",
+  "generated": "2026-05-28T00:00:00Z",
+  "note": "ACA-7 Senate Education Committee To receiver list"
+}

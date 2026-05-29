@@ -141,13 +141,15 @@
                     <div style="height:12px;"></div>
                     <div class="form-group">
                         <textarea id="emailBody" required style="min-height: 500px; font-size:16px; line-height:1.5;">
+Dear Senator [SENATOR_NAME] and Senate Education Committee members,
+
 ACA-7 is a direct threat to California's constitutional ban on racial and sex discrimination.
 
 This legislation would allow schools, colleges, and universities to discriminate and grant preferential treatment based on race or sex—undermining decades of progress toward equal treatment under the law.
 
 California voters spoke clearly in 2020 when they rejected Prop 16. They don't want discrimination, and they are tired of having to fight their legislators on this.
 
-Please vote NO on ACA-7.
+Please vote NO on ACA-7!
 
 Respectfully,
 
@@ -159,7 +161,7 @@ Respectfully,
                 
                 <!-- CC Section -->
                 <div class="cc-section">
-                    <p>📋 <strong id="ccLabel">Senators + assistants (excluding primary)</strong> will be placed in BCC.</p>
+                    <p>📋 <strong id="ccLabel">Additional senator recipients</strong> will be placed in BCC.</p>
                 </div>
                 
                 <!-- Submit -->
@@ -260,14 +262,25 @@ Respectfully,
             { name: "Senator Caroline Menjivar", email: "Senator.Menjivar@senate.ca.gov", assistant: "Cameron.Urkofsky@sen.ca.gov", district: "20", county: "Los Angeles" },
             { name: "Senator Steve Padilla", email: "Senator.Padilla@senate.ca.gov", assistant: "Dan.Reeves@sen.ca.gov", district: "18", county: "San Diego" },
             { name: "Senator Sasha Renée Pérez", email: "Senator.Perez@senate.ca.gov", assistant: "Edmundo.Cuevas@sen.ca.gov", district: "25", county: "Los Angeles" },
+            { name: "Senator Sasha Renée Pérez", email: "Senator.Perez@senate.ca.gov", assistant: "Edmundo.Cuevas@sen.ca.gov", district: "25", county: "Los Angeles" },
             { name: "Senator Eloise Reyes", email: "Senator.Reyes@senate.ca.gov", assistant: "Matthew.Hamlett@sen.ca.gov", district: "31", county: "San Bernardino" },
             { name: "Senator Susan Rubio", email: "Senator.Rubio@senate.ca.gov", assistant: "Alex.Hirsch@sen.ca.gov", district: "22", county: "Los Angeles" },
             { name: "Senator Henry Stern", email: "Senator.Stern@senate.ca.gov", assistant: "", district: "27", county: "Los Angeles, Ventura" },
             { name: "Senator Thomas Umberg", email: "Senator.Umberg@senate.ca.gov", assistant: "Aria.Ghafari@sen.ca.gov", district: "34", county: "Orange" },
             { name: "Senator Scott Wiener", email: "Senator.Wiener@senate.ca.gov", assistant: "Krista.Pfefferkorn@sen.ca.gov", district: "11", county: "San Francisco" }
         ];
+        const defaultEducationCommittee = [
+            { name: "Senator Sasha Renée Pérez", email: "Senator.Perez@senate.ca.gov", assistant: "Edmundo.Cuevas@sen.ca.gov", district: "25", county: "Los Angeles" },
+            { name: "Senator Rosilicie Ochoa Bogh", email: "Senator.OchoaBogh@senate.ca.gov", assistant: "Sarah.Couch@sen.ca.gov", district: "19", county: "Riverside, San Bernardino" },
+            { name: "Senator Christopher Cabaldon", email: "Senator.Cabaldon@senate.ca.gov", assistant: "Aaron.Skaggs@sen.ca.gov", district: "3", county: "Napa, Solano, Sonoma, Yolo" },
+            { name: "Senator Steven \"Steve\" Choi", email: "Senator.Choi@senate.ca.gov", assistant: "David.Orosco@sen.ca.gov", district: "37", county: "Orange" },
+            { name: "Senator Dave Cortese", email: "Senator.Cortese@senate.ca.gov", assistant: "Sunshine.Borelli@sen.ca.gov", district: "15", county: "Santa Clara" },
+            { name: "Senator Lena Gonzalez", email: "Senator.Gonzalez@senate.ca.gov", assistant: "Cynthia.Alvarez@sen.ca.gov", district: "33", county: "Los Angeles" },
+            { name: "Senator Eloise Gómez Reyes", email: "Senator.Reyes@senate.ca.gov", assistant: "Matthew.Hamlett@sen.ca.gov", district: "29", county: "San Bernardino" }
+        ];
         let senators = [...defaultSenators];
         let bccSenators = [...defaultSenators];
+        let educationCommitteeSenators = [...defaultEducationCommittee];
         const displayName = (s) => (s && s.name) ? s.name.replace(/^Senator\s+/i, '') : '';
 
         
@@ -538,7 +551,7 @@ Respectfully,
         }
 
         // Email Template (single)
-        const baseTemplate = `Dear Senator [SENATOR_NAME],
+        const baseTemplate = `Dear Senator [SENATOR_NAME] and Senate Education Committee members,
 
 ACA-7 is a direct threat to California's constitutional ban on racial and sex discrimination.
 
@@ -546,7 +559,7 @@ This legislation would allow schools, colleges, and universities to discriminate
 
 California voters spoke clearly in 2020 when they rejected Prop 16. They don't want discrimination, and they are tired of having to fight their legislators on this.
 
-Please vote NO on ACA-7.
+Please vote NO on ACA-7!
 
 Respectfully,
 
@@ -632,7 +645,37 @@ Respectfully,
             document.getElementById('emailBody').value = body;
         }
         
-                // Build targeted BCC list (20-senator list + assistants)
+        function appendRecipientEmail(recipients, seen, email) {
+            if (!email) return;
+            const normalized = email.trim();
+            if (!normalized) return;
+            const key = normalized.toLowerCase();
+            if (seen.has(key)) return;
+            seen.add(key);
+            recipients.push(normalized);
+        }
+
+        function appendSenatorRecipients(recipients, seen, senator) {
+            if (!senator) return;
+            appendRecipientEmail(recipients, seen, senator.email);
+            appendRecipientEmail(recipients, seen, senator.assistant);
+        }
+
+        function buildToList(senator) {
+            const recipients = [];
+            const seen = new Set();
+            appendSenatorRecipients(recipients, seen, senator);
+            (educationCommitteeSenators && educationCommitteeSenators.length ? educationCommitteeSenators : defaultEducationCommittee)
+                .forEach(s => appendSenatorRecipients(recipients, seen, s));
+            return recipients.join(',');
+        }
+
+        function formatRecipientList(value, label) {
+            const items = value ? value.split(',').filter(Boolean) : [];
+            return items.length > 6 ? `${items.length} ${label}` : items.join(', ');
+        }
+
+        // Build existing BCC list.
         function buildTargetedBCC(excludeDistrict) {
             const limited = (bccSenators && bccSenators.length ? bccSenators : defaultSenators).slice(0, 20);
             const bccArray = limited.flatMap(s => {
@@ -1205,6 +1248,18 @@ Respectfully,
             } catch (e) {
                 debug.log("DATA", `20senators fetch failed: ${e.message}`);
             }
+            try {
+                const res = await fetch("data/education-committee.json?v=1", { cache: "reload" });
+                if (res.ok) {
+                    const data = await res.json();
+                    if (data.senators && data.senators.length) {
+                        educationCommitteeSenators = data.senators;
+                        debug.log("DATA", `Loaded education-committee.json (${educationCommitteeSenators.length})`);
+                    }
+                }
+            } catch (e) {
+                debug.log("DATA", `education-committee fetch failed: ${e.message}`);
+            }
         }
         loadData();
 
@@ -1327,10 +1382,8 @@ Respectfully,
             
             // Update recipient summary
             document.getElementById('recipientSummary').style.display = 'block';
-            const toDisplay = senator.assistant ? 
-                `${senator.name} <${senator.email}>, ${senator.assistant}` : 
-                `${senator.name} <${senator.email}>`;
-            document.getElementById('primaryRecipient').textContent = toDisplay;
+            const toEmail = buildToList(senator);
+            document.getElementById('primaryRecipient').textContent = formatRecipientList(toEmail, 'To recipients');
             
             // BCC list: targeted list from senators.json (exclude matched)
             const bccString = buildTargetedBCC(senator.district);
@@ -1365,7 +1418,7 @@ Respectfully,
                 return;
             }
             let toEmail, bccList;
-            toEmail = matchedSenator.assistant ? `${matchedSenator.email},${matchedSenator.assistant}` : matchedSenator.email;
+            toEmail = buildToList(matchedSenator);
             bccList = buildTargetedBCC(matchedSenator.district);
             const encodeMailto = (str) => encodeURIComponent(str);
             const mailtoLink = `mailto:${encodeMailto(toEmail)}?subject=${encodeMailto(subject)}&body=${encodeMailto(body)}&bcc=${encodeMailto(bccList)}`;
@@ -1618,7 +1671,7 @@ Respectfully,
             body = body.replace(/\[SENATOR_NAME\]/g, senatorLastName);
             body = body.replace(/\[YOUR_NAME\]/g, yourName);
             body = body.replace(/\[YOUR_ADDRESS\]/g, fullAddress || '[YOUR_ADDRESS]');
-            const toEmail = matchedSenator.assistant ? `${matchedSenator.email},${matchedSenator.assistant}` : matchedSenator.email;
+            const toEmail = buildToList(matchedSenator);
             const bccList = buildTargetedBCC(matchedSenator.district);
             return { yourName, yourEmail, city, zip, fullAddress, subject, body, toEmail, bccList };
         }
