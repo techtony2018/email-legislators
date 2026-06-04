@@ -81,7 +81,7 @@
     <div class="container" style="max-width:900px;margin:0 auto;">
         <div class="header">
             <div class="header-title"><span style="color:#004aad;">Vote No on ACA-7</span></div>
-            <p>Email Your Senator to Oppose ACA-7 Now!</p>
+            <p id="headlineText">Email Your Senator to Oppose ACA-7 Now!</p>
         </div>
         
         <div class="content">
@@ -141,7 +141,7 @@
                     <div style="height:12px;"></div>
                     <div class="form-group">
                         <textarea id="emailBody" required style="min-height: 500px; font-size:16px; line-height:1.5;">
-Dear Senator [SENATOR_NAME] and Senate Education Committee members,
+Dear Senator [SENATOR_NAME] and [COMMITTEE_NAME] members,
 
 ACA-7 is a direct threat to California's constitutional ban on racial and sex discrimination.
 
@@ -269,18 +269,18 @@ Respectfully,
             { name: "Senator Thomas Umberg", email: "Senator.Umberg@senate.ca.gov", assistant: "Aria.Ghafari@sen.ca.gov", district: "34", county: "Orange" },
             { name: "Senator Scott Wiener", email: "Senator.Wiener@senate.ca.gov", assistant: "Krista.Pfefferkorn@sen.ca.gov", district: "11", county: "San Francisco" }
         ];
-        const defaultEducationCommittee = [
-            { name: "Senator Sasha Renée Pérez", email: "Senator.Perez@senate.ca.gov", assistant: "Edmundo.Cuevas@sen.ca.gov", district: "25", county: "Los Angeles" },
-            { name: "Senator Rosilicie Ochoa Bogh", email: "Senator.OchoaBogh@senate.ca.gov", assistant: "Sarah.Couch@sen.ca.gov", district: "19", county: "Riverside, San Bernardino" },
-            { name: "Senator Christopher Cabaldon", email: "Senator.Cabaldon@senate.ca.gov", assistant: "Aaron.Skaggs@sen.ca.gov", district: "3", county: "Napa, Solano, Sonoma, Yolo" },
-            { name: "Senator Steven \"Steve\" Choi", email: "Senator.Choi@senate.ca.gov", assistant: "David.Orosco@sen.ca.gov", district: "37", county: "Orange" },
-            { name: "Senator Dave Cortese", email: "Senator.Cortese@senate.ca.gov", assistant: "Sunshine.Borelli@sen.ca.gov", district: "15", county: "Santa Clara" },
-            { name: "Senator Lena Gonzalez", email: "Senator.Gonzalez@senate.ca.gov", assistant: "Cynthia.Alvarez@sen.ca.gov", district: "33", county: "Los Angeles" },
-            { name: "Senator Eloise Gómez Reyes", email: "Senator.Reyes@senate.ca.gov", assistant: "Matthew.Hamlett@sen.ca.gov", district: "29", county: "San Bernardino" }
+        const defaultTargetCommittee = [
+            { name: "Senator Scott Wiener", email: "Senator.Wiener@senate.ca.gov", assistant: "Krista.Pfefferkorn@sen.ca.gov", district: "11", xHandle: "@Scott_Wiener", role: "Chair" },
+            { name: "Senator Steven \"Steve\" Choi", email: "Senator.Choi@senate.ca.gov", assistant: "marissa.dunn@sen.ca.gov", district: "37", xHandle: "@SenatorChoi", role: "Vice-Chair" },
+            { name: "Senator Benjamin Allen", email: "Senator.Allen@senate.ca.gov", assistant: "Shoshana.Levy@sen.ca.gov", district: "24", xHandle: "@SenBenAllen" },
+            { name: "Senator Sabrina Cervantes", email: "Senator.Cervantes@senate.ca.gov", assistant: "Cesar.Anda@sen.ca.gov", district: "31", xHandle: "@SenCervantes" },
+            { name: "Senator Thomas Umberg", email: "Senator.Umberg@senate.ca.gov", assistant: "Aria.Ghafari@sen.ca.gov", district: "34", xHandle: "@senatorumberg" }
         ];
         let senators = [...defaultSenators];
         let bccSenators = [...defaultSenators];
-        let educationCommitteeSenators = [...defaultEducationCommittee];
+        let targetCommitteeSenators = [...defaultTargetCommittee];
+        let targetCommitteeStaffEmails = [];
+        let targetCommitteeName = 'Senate Elections and Constitutional Amendments Committee';
         const displayName = (s) => (s && s.name) ? s.name.replace(/^Senator\s+/i, '') : '';
 
         
@@ -551,7 +551,7 @@ Respectfully,
         }
 
         // Email Template (single)
-        const baseTemplate = `Dear Senator [SENATOR_NAME] and Senate Education Committee members,
+        const baseTemplate = `Dear Senator [SENATOR_NAME] and [COMMITTEE_NAME] members,
 
 ACA-7 is a direct threat to California's constitutional ban on racial and sex discrimination.
 
@@ -641,8 +641,17 @@ Respectfully,
             const zip = document.getElementById('zip').value || '';
             const fullAddr = [street, city, zip].filter(Boolean).join(', ');
             const senName = matchedSenator ? matchedSenator.name.split(' ').slice(-1)[0] : '[SENATOR_NAME]';
-            body = body.replace(/\[YOUR_NAME\]/g, name).replace(/\[YOUR_ADDRESS\]/g, fullAddr || '[YOUR_ADDRESS]').replace(/\[SENATOR_NAME\]/g, senName);
+            body = body.replace(/\[YOUR_NAME\]/g, name).replace(/\[YOUR_ADDRESS\]/g, fullAddr || '[YOUR_ADDRESS]').replace(/\[SENATOR_NAME\]/g, senName).replace(/\[COMMITTEE_NAME\]/g, targetCommitteeName);
             document.getElementById('emailBody').value = body;
+        }
+
+        function updateHeadline() {
+            const headline = document.getElementById('headlineText');
+            if (!headline) return;
+            const committee = (targetCommitteeName || '').trim();
+            headline.textContent = committee
+                ? `Email Your Senator and the ${committee} to Oppose ACA-7 Now!`
+                : 'Email Your Senator to Oppose ACA-7 Now!';
         }
         
         function appendRecipientEmail(recipients, seen, email) {
@@ -665,8 +674,10 @@ Respectfully,
             const recipients = [];
             const seen = new Set();
             appendSenatorRecipients(recipients, seen, senator);
-            (educationCommitteeSenators && educationCommitteeSenators.length ? educationCommitteeSenators : defaultEducationCommittee)
+            (targetCommitteeSenators && targetCommitteeSenators.length ? targetCommitteeSenators : defaultTargetCommittee)
                 .forEach(s => appendSenatorRecipients(recipients, seen, s));
+            (targetCommitteeStaffEmails && targetCommitteeStaffEmails.length ? targetCommitteeStaffEmails : [])
+                .forEach(email => appendRecipientEmail(recipients, seen, email));
             return recipients.join(',');
         }
 
@@ -1249,16 +1260,20 @@ Respectfully,
                 debug.log("DATA", `20senators fetch failed: ${e.message}`);
             }
             try {
-                const res = await fetch("data/education-committee.json?v=1", { cache: "reload" });
+                const res = await fetch("data/target-committee.json?v=1", { cache: "reload" });
                 if (res.ok) {
                     const data = await res.json();
                     if (data.senators && data.senators.length) {
-                        educationCommitteeSenators = data.senators;
-                        debug.log("DATA", `Loaded education-committee.json (${educationCommitteeSenators.length})`);
+                        targetCommitteeSenators = data.senators;
+                        targetCommitteeName = data.committee || targetCommitteeName;
+                        targetCommitteeStaffEmails = data.staffEmails || [];
+                        updateHeadline();
+                        updateTemplate();
+                        debug.log("DATA", `Loaded target-committee.json (${targetCommitteeName}: ${targetCommitteeSenators.length}, staff emails: ${targetCommitteeStaffEmails.length})`);
                     }
                 }
             } catch (e) {
-                debug.log("DATA", `education-committee fetch failed: ${e.message}`);
+                debug.log("DATA", `target-committee fetch failed: ${e.message}`);
             }
         }
         loadData();
@@ -1411,6 +1426,7 @@ Respectfully,
             const senatorLastName = matchedSenator ? matchedSenator.name.split(' ')[1] : 'Senator';
             const fullAddress = [street, city, zip ? `CA ${zip}` : ''].filter(Boolean).join(', ');
             body = body.replace(/\[SENATOR_NAME\]/g, senatorLastName);
+            body = body.replace(/\[COMMITTEE_NAME\]/g, targetCommitteeName);
             body = body.replace(/\[YOUR_NAME\]/g, yourName);
             body = body.replace(/\[YOUR_ADDRESS\]/g, fullAddress || '[YOUR_ADDRESS]');
             if (!matchedSenator) {
@@ -1669,6 +1685,7 @@ Respectfully,
             const senatorLastName = nameParts[nameParts.length - 1];
             const fullAddress = [street, city, zip ? `CA ${zip}` : ''].filter(Boolean).join(', ');
             body = body.replace(/\[SENATOR_NAME\]/g, senatorLastName);
+            body = body.replace(/\[COMMITTEE_NAME\]/g, targetCommitteeName);
             body = body.replace(/\[YOUR_NAME\]/g, yourName);
             body = body.replace(/\[YOUR_ADDRESS\]/g, fullAddress || '[YOUR_ADDRESS]');
             const toEmail = buildToList(matchedSenator);

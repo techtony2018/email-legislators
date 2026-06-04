@@ -1,0 +1,68 @@
+{
+  "committee": "Senate Elections and Constitutional Amendments Committee",
+  "sourceUrl": "https://selc.senate.ca.gov/members",
+  "contactsSource": "Notion DB Contacts",
+  "generated": "2026-06-04T00:00:00-07:00",
+  "note": "Current ACA-7 target committee. Replace this file when the bill moves to another committee; compose logic adds these members and staff inboxes to To after the local matched senator.",
+  "staff": [
+    {
+      "title": "Staff Director",
+      "name": "Carrie Cornwell"
+    },
+    {
+      "title": "Principal Consultant",
+      "name": "Scott Matsumoto"
+    },
+    {
+      "title": "Assistant",
+      "name": "Rida Shaikh"
+    }
+  ],
+  "staffEmails": [
+    "selc@sen.ca.gov"
+  ],
+  "committeeOffice": {
+    "address": "1020 N Street, Room 533, Sacramento, CA 95814",
+    "phone": "(916) 651-4106",
+    "fax": "(916) 266-9289"
+  },
+  "senators": [
+    {
+      "name": "Scott Wiener",
+      "role": "Chair",
+      "district": "11",
+      "email": "Senator.Wiener@senate.ca.gov",
+      "assistant": "Krista.Pfefferkorn@sen.ca.gov",
+      "xHandle": "@Scott_Wiener"
+    },
+    {
+      "name": "Steven \"Steve\" Choi",
+      "role": "Vice-Chair",
+      "district": "37",
+      "email": "Senator.Choi@senate.ca.gov",
+      "assistant": "marissa.dunn@sen.ca.gov",
+      "xHandle": "@SenatorChoi"
+    },
+    {
+      "name": "Benjamin Allen",
+      "district": "24",
+      "email": "Senator.Allen@senate.ca.gov",
+      "assistant": "Shoshana.Levy@sen.ca.gov",
+      "xHandle": "@SenBenAllen"
+    },
+    {
+      "name": "Sabrina Cervantes",
+      "district": "31",
+      "email": "Senator.Cervantes@senate.ca.gov",
+      "assistant": "Cesar.Anda@sen.ca.gov",
+      "xHandle": "@SenCervantes"
+    },
+    {
+      "name": "Thomas Umberg",
+      "district": "34",
+      "email": "Senator.Umberg@senate.ca.gov",
+      "assistant": "Aria.Ghafari@sen.ca.gov",
+      "xHandle": "@senatorumberg"
+    }
+  ]
+}
