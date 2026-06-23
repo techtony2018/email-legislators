@@ -69,12 +69,6 @@
         .submap-status { font-size:12px; color:#666; margin-bottom:8px; }
         .hidden { display:none !important; }
         @media (max-width: 1200px) { .split-maps { grid-template-columns:1fr; } }
-        .copy-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; z-index: 99999; padding: 20px; }
-        .copy-overlay-card { background: #fff; width: 100%; max-width: 560px; border-radius: 14px; padding: 18px; box-shadow: 0 18px 40px rgba(0,0,0,.25); }
-        .copy-overlay-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #222; }
-        .copy-overlay-text { font-size: 14px; color: #444; margin-bottom: 12px; line-height: 1.5; }
-        .copy-overlay-input { width: 100%; padding: 12px; border: 1px solid #bbb; border-radius: 8px; font-size: 15px; margin-bottom: 12px; background:#fff; color:#111; }
-        .copy-overlay-actions { display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
     </style>
 </head>
 <body>
@@ -491,64 +485,10 @@ Respectfully,
         let selectedSenator = null;
         let matchedSenator = null;
         const isEmbeddedView = (() => { try { return window.self !== window.top; } catch (e) { return true; }})();
-        const hasReferrer = !!document.referrer;
         const ua = navigator.userAgent || '';
         const isWeChat = /MicroMessenger/i.test(ua);
         const isX = /Twitter|TwitterForiPhone|TwitterForAndroid/i.test(ua); // UA only to avoid desktop referrers
-        const embeddedMode = isEmbeddedView || hasReferrer || isWeChat || isX;
-
-        // UX rule from product requirement:
-        // - WeChat built-in browser must use Chinese prompts.
-        // - All other in-app / non-system browsers must use English prompts.
-        async function copyCurrentPageUrlForSystemBrowser() {
-            const url = window.location.href;
-            try {
-                if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(url);
-                    return true;
-                }
-            } catch (e) {}
-
-            try {
-                const ta = document.createElement('textarea');
-                ta.value = url;
-                ta.setAttribute('readonly', 'readonly');
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
-                ta.style.pointerEvents = 'none';
-                ta.style.left = '-9999px';
-                document.body.appendChild(ta);
-                ta.focus();
-                ta.select();
-                ta.setSelectionRange(0, ta.value.length);
-                const copied = document.execCommand('copy');
-                document.body.removeChild(ta);
-                return !!copied;
-            } catch (e) {
-                return false;
-            }
-        }
-
-        function getEmbeddedBrowserPrompt(copied) {
-            // Keep this language split explicit in code:
-            // WeChat => Chinese. Everyone else => English.
-            if (isWeChat) {
-                return copied
-                    ? '🛑 重要提示：已复制当前页面链接。请退出微信内置浏览器，并在系统浏览器中打开该链接以继续操作。'
-                    : '🛑 重要提示：微信内置浏览器不支持本页面的后续操作。请复制当前页面链接，再改用系统浏览器打开以继续后续操作。';
-            }
-            return copied
-                ? '🛑 Important: This page link has been copied. Please open it in your system browser to continue.'
-                : '🛑 Important: Clipboard copy is blocked here. Please copy the page link and open it in your system browser to continue.';
-        }
-
-                async function promptOpenInSystemBrowserOnce(kind) {
-            const key = kind === 'wechat' ? '_wechatPopupShown' : kind === 'x' ? '_xPopupShown' : '_embeddedPopupShown';
-            if (window[key]) return;
-            window[key] = true;
-            const copied = await copyCurrentPageUrlForSystemBrowser();
-            alert(getEmbeddedBrowserPrompt(copied));
-        }
+        const embeddedMode = isEmbeddedView || isWeChat || isX;
 
         // Email Template (single)
         const baseTemplate = `Dear Senator [SENATOR_NAME] and [COMMITTEE_NAME] members,
@@ -587,7 +527,7 @@ Respectfully,
                 note.style.display = showNote ? 'block' : 'none';
                 note.textContent = isWeChat
                     ? '重要提示：您正在使用的微信浏览器不支持本页面操作, 请长按并复制下面的链接，然后在系统浏览器中打开以正确操作（页面按钮已经被禁用）。'
-                    : '🛑 Important: Detected an in-app browser. We will try to copy this page link; please open it in your system browser.';
+                    : '🛑 Important: Detected an in-app browser. Please open this page link in your system browser.';
             }
             const linkNote = document.getElementById('openInBrowserLink');
             if (linkNote) {
@@ -603,13 +543,6 @@ Respectfully,
             if (status) status.textContent = (embeddedMode || isX)
                 ? ''
                 : '';
-            if (isWeChat) {
-                promptOpenInSystemBrowserOnce('wechat');
-            } else if (isX) {
-                promptOpenInSystemBrowserOnce('x');
-            } else if (embeddedMode) {
-                promptOpenInSystemBrowserOnce('embedded');
-            }
         };
 
         // Initialize

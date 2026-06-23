@@ -1,68 +1,93 @@
 {
-  "committee": "Senate Elections and Constitutional Amendments Committee",
-  "sourceUrl": "https://selc.senate.ca.gov/members",
-  "contactsSource": "Notion DB Contacts",
-  "generated": "2026-06-04T00:00:00-07:00",
-  "note": "Current ACA-7 target committee. Replace this file when the bill moves to another committee; compose logic adds these members and staff inboxes to To after the local matched senator.",
-  "staff": [
-    {
-      "title": "Staff Director",
-      "name": "Carrie Cornwell"
-    },
-    {
-      "title": "Principal Consultant",
-      "name": "Scott Matsumoto"
-    },
-    {
-      "title": "Assistant",
-      "name": "Rida Shaikh"
-    }
-  ],
-  "staffEmails": [
-    "selc@sen.ca.gov"
-  ],
+  "committee": "Senate Appropriations Committee",
+  "sourceUrl": "",
+  "contactsSource": "User provided table from Notion DB Contacts and Allies",
+  "generated": "2026-06-09T00:00:00-07:00",
+  "note": "Current ACA-7 target committee. Replace this file when the bill moves to another committee; compose logic adds these members and assistant inboxes to To after the local matched senator.",
+  "staff": [],
+  "staffEmails": [],
   "committeeOffice": {
-    "address": "1020 N Street, Room 533, Sacramento, CA 95814",
-    "phone": "(916) 651-4106",
-    "fax": "(916) 266-9289"
+    "address": "",
+    "phone": "",
+    "fax": ""
   },
   "senators": [
     {
-      "name": "Scott Wiener",
-      "role": "Chair",
-      "district": "11",
-      "email": "Senator.Wiener@senate.ca.gov",
-      "assistant": "Krista.Pfefferkorn@sen.ca.gov",
-      "xHandle": "@Scott_Wiener"
-    },
-    {
-      "name": "Steven \"Steve\" Choi",
-      "role": "Vice-Chair",
-      "district": "37",
-      "email": "Senator.Choi@senate.ca.gov",
-      "assistant": "marissa.dunn@sen.ca.gov",
-      "xHandle": "@SenatorChoi"
-    },
-    {
-      "name": "Benjamin Allen",
-      "district": "24",
-      "email": "Senator.Allen@senate.ca.gov",
-      "assistant": "Shoshana.Levy@sen.ca.gov",
-      "xHandle": "@SenBenAllen"
-    },
-    {
       "name": "Sabrina Cervantes",
+      "sourceDb": "Contacts",
       "district": "31",
       "email": "Senator.Cervantes@senate.ca.gov",
       "assistant": "Cesar.Anda@sen.ca.gov",
-      "xHandle": "@SenCervantes"
+      "phone": "Not checked",
+      "bio": "Comm of APPR",
+      "xHandle": "@SenCervantes",
+      "fbHandle": "@senatorcervantesca"
     },
     {
-      "name": "Thomas Umberg",
-      "district": "34",
-      "email": "Senator.Umberg@senate.ca.gov",
-      "assistant": "Aria.Ghafari@sen.ca.gov",
-      "xHandle": "@senatorumberg"
+      "name": "Kelly Seyarto",
+      "sourceDb": "Allies",
+      "district": "32",
+      "email": "Senator.Seyarto@senate.ca.gov",
+      "assistant": "Kristy.MacDougall@sen.ca.gov",
+      "phone": "Not checked",
+      "bio": "Senator; Comm of APPR",
+      "xHandle": "@SenatorSeyarto",
+      "fbHandle": "@SenatorKellySeyarto"
+    },
+    {
+      "name": "Christopher Cabaldon",
+      "sourceDb": "Contacts",
+      "district": "3",
+      "email": "Senator.Cabaldon@senate.ca.gov",
+      "assistant": "helen.cascaddan@sen.ca.gov",
+      "phone": "Not checked",
+      "bio": "Elected in 2024...; Comm of APPR",
+      "xHandle": "@Cabaldon4CA",
+      "fbHandle": "@mayorcabaldon"
+    },
+    {
+      "name": "Megan Dahle",
+      "sourceDb": "Allies",
+      "district": "1",
+      "email": "Senator.Dahle@senate.ca.gov",
+      "assistant": "Erik.Brahms@sen.ca.gov",
+      "phone": "Not checked",
+      "bio": "Senator; Comm of APPR",
+      "xHandle": "@senmegandahle",
+      "fbHandle": "@megandahleca"
+    },
+    {
+      "name": "Tim Grayson",
+      "sourceDb": "Contacts",
+      "district": "9",
+      "email": "Senator.Grayson@senate.ca.gov",
+      "assistant": "Aaron.Moreno@sen.ca.gov",
+      "phone": "Not checked",
+      "bio": "Comm of APPR",
+      "xHandle": "@TimGraysonCA",
+      "fbHandle": "@senatorgrayson"
+    },
+    {
+      "name": "Laura Richardson",
+      "sourceDb": "Contacts",
+      "district": "35",
+      "email": "senator.richardson@senate.ca.gov",
+      "assistant": "willie.armstrong@sen.ca.gov",
+      "phone": "(916) 651-4035",
+      "bio": "Comm of APPR",
+      "xHandle": "",
+      "fbHandle": ""
+    },
+    {
+      "name": "Aisha Wahab",
+      "sourceDb": "Contacts",
+      "district": "10",
+      "email": "senator.wahab@senate.ca.gov",
+      "assistant": "nurges.gheyszada@sen.ca.gov",
+      "phone": "(916) 651-4410",
+      "bio": "Comm of APPR",
+      "xHandle": "@SenAishaWahab",
+      "fbHandle": "@SenAishaWahab"
     }
   ]
 }
